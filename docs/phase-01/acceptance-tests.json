@@ -1,0 +1,955 @@
+{
+  "schema_version": 1,
+  "note": "Future behavioral specifications only; none executed in Phase 1.",
+  "acceptance_tests": [
+    {
+      "id": "QNT-AT-0001",
+      "linked_requirement_ids": [
+        "QNT-FR-0001"
+      ],
+      "scenario": "Dynamic futures universe",
+      "preconditions": "Future implementation of QNT-FR-0001 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Supply a spot-only symbol, an eligible perpetual, and an ineligible contract type; refresh metadata.",
+      "expected_observable_result": "Only the eligible perpetual enters the futures universe; the list changes on refresh without a code change.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 4,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0002",
+      "linked_requirement_ids": [
+        "QNT-FR-0002"
+      ],
+      "scenario": "Separate scan and execution eligibility",
+      "preconditions": "Future implementation of QNT-FR-0002 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Provide a scannable symbol with insufficient history, then excessive spread, then failed model validity.",
+      "expected_observable_result": "The symbol may appear in research scans but each execution attempt is blocked with the specific reason.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 6,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0003",
+      "linked_requirement_ids": [
+        "QNT-FR-0003"
+      ],
+      "scenario": "Contract lifecycle changes",
+      "preconditions": "Future implementation of QNT-FR-0003 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Suspend a symbol with open exposure; change its quantity step while an entry is queued.",
+      "expected_observable_result": "Entry is canceled or blocked, quantities are revalidated, protection/reconciliation and an alert persist; closure failure remains visible.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 4,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0004",
+      "linked_requirement_ids": [
+        "QNT-FR-0004"
+      ],
+      "scenario": "Required and optional input manifests",
+      "preconditions": "Future implementation of QNT-FR-0004 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Remove optional news then required price data under a versioned manifest.",
+      "expected_observable_result": "Optional omission records the selected validated fallback or abstention; missing price blocks entry and exposes the missing input.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 4,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0005",
+      "linked_requirement_ids": [
+        "QNT-FR-0005"
+      ],
+      "scenario": "Public market data access",
+      "preconditions": "Future implementation of QNT-FR-0005 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Open the scanner and paper account with no user integration, then attempt to configure a platform provider as a tenant trader.",
+      "expected_observable_result": "Public features load where feeds are available; provider administration is denied to the trader.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 4,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0006",
+      "linked_requirement_ids": [
+        "QNT-FR-0006"
+      ],
+      "scenario": "Integration credential lifecycle",
+      "preconditions": "Future implementation of QNT-FR-0006 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Exercise each operation as an authorized owner in testnet and inspect the test request audit.",
+      "expected_observable_result": "Masked connection metadata and lifecycle events are returned; no order is created and live credentials/state are unaffected.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 3,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0007",
+      "linked_requirement_ids": [
+        "QNT-FR-0007"
+      ],
+      "scenario": "Secret storage boundary",
+      "preconditions": "Future implementation of QNT-FR-0007 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Submit a synthetic sentinel secret and inspect responses, error paths, telemetry, bundles and database records; deny secret-manager access.",
+      "expected_observable_result": "Sentinel appears only at authorized input/decryption boundaries, ciphertext is stored, outputs are masked, and decryption fails closed without root-key access.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 3,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0008",
+      "linked_requirement_ids": [
+        "QNT-FR-0008"
+      ],
+      "scenario": "Credential change with exposure",
+      "preconditions": "Future implementation of QNT-FR-0008 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Run independent active-position fixtures: replace a key with one for a different account; replace with a valid same-account/environment key; expire or revoke access; remove credentials while exposure remains.",
+      "expected_observable_result": "Wrong-account replacement is rejected. Valid replacement keeps entries frozen until identity, reconciliation and protection handover succeed. Expiry/revocation inhibits new requests under lost authority and alerts the owner. Removal retains unresolved exposure records and manual-intervention status; no case reports FLAT without reconciliation or returns stored plaintext.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0009",
+      "linked_requirement_ids": [
+        "QNT-FR-0009"
+      ],
+      "scenario": "Supported integration destinations",
+      "preconditions": "Future implementation of QNT-FR-0009 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Submit a loopback URL and a supported provider redirecting to an unapproved host.",
+      "expected_observable_result": "The loopback fetch is blocked before access. A request to the supported initial host may reveal a redirect, but no request reaches the unapproved redirect destination. Both denials have sanitized audit records.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 3,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0010",
+      "linked_requirement_ids": [
+        "QNT-FR-0010"
+      ],
+      "scenario": "Role authorization",
+      "preconditions": "Future implementation of QNT-FR-0010 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Try viewer start/live activation, platform-admin tenant trading, and owner access within its tenant.",
+      "expected_observable_result": "Unauthorized actions return denial without state changes; authorized owner actions remain scoped and audited.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 3,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0011",
+      "linked_requirement_ids": [
+        "QNT-FR-0011"
+      ],
+      "scenario": "Tenant and environment isolation",
+      "preconditions": "Future implementation of QNT-FR-0011 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Tenant A requests tenant B records, object links, websocket channels and job identifiers, including forged tenant IDs.",
+      "expected_observable_result": "No B payload, existence detail or mutation is exposed; each denied boundary is auditable.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 3,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0012",
+      "linked_requirement_ids": [
+        "QNT-FR-0012"
+      ],
+      "scenario": "Retention export and deletion",
+      "preconditions": "Future implementation of QNT-FR-0012 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Export tenant A, request deletion during open exposure and an audit hold, then expire an eligible profile retention period.",
+      "expected_observable_result": "Export excludes other tenants; deletion reports retained categories/reasons and deletes eligible data only; financial links remain restricted and intelligible.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 15,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0013",
+      "linked_requirement_ids": [
+        "QNT-FR-0013"
+      ],
+      "scenario": "Chart-centered workspace",
+      "preconditions": "Future implementation of QNT-FR-0013 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Open a populated session and inspect each panel in PAPER, TESTNET and LIVE fixtures.",
+      "expected_observable_result": "Every named region is present and the mode remains prominent during navigation and modal interactions.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0014",
+      "linked_requirement_ids": [
+        "QNT-FR-0014"
+      ],
+      "scenario": "Chart overlays and saved workspace",
+      "preconditions": "Future implementation of QNT-FR-0014 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Resize and reload, switch users, then feed a partial fill and moved stop.",
+      "expected_observable_result": "Preferences persist only for the original user and overlays distinguish intended versus executed quantity and current stop.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0015",
+      "linked_requirement_ids": [
+        "QNT-FR-0015"
+      ],
+      "scenario": "Bounded chart tools",
+      "preconditions": "Future implementation of QNT-FR-0015 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Review implemented indicator/tool inventory and chart dependency license record.",
+      "expected_observable_result": "Only the bounded approved inventory is claimed; distribution is blocked without a verified license decision D-01.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0016",
+      "linked_requirement_ids": [
+        "QNT-FR-0016"
+      ],
+      "scenario": "Honest UI status states",
+      "preconditions": "Future implementation of QNT-FR-0016 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Freeze feed updates beyond the configured freshness limit while leaving the page open; reconnect with an older event.",
+      "expected_observable_result": "Stale status replaces current status without user refresh, entries are disabled, and old events cannot restore current status.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0017",
+      "linked_requirement_ids": [
+        "QNT-FR-0017"
+      ],
+      "scenario": "Built-in virtual account",
+      "preconditions": "Future implementation of QNT-FR-0017 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Create a paper session without keys and try settings beyond platform ceilings.",
+      "expected_observable_result": "Valid virtual allocation starts PAPER mode; excessive values are rejected with reasons, and no live route is accessed.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0018",
+      "linked_requirement_ids": [
+        "QNT-FR-0018"
+      ],
+      "scenario": "Paper reset epochs",
+      "preconditions": "Future implementation of QNT-FR-0018 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Reset an account after wins and losses and inspect both epochs.",
+      "expected_observable_result": "New virtual balance has a distinct epoch, prior history is unchanged, and reports cannot blend epochs into a misleading record.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0019",
+      "linked_requirement_ids": [
+        "QNT-FR-0019"
+      ],
+      "scenario": "Execution simulator realism",
+      "preconditions": "Future implementation of QNT-FR-0019 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Replay a thin book with a delayed order, partial fill, fee and funding event; repeat using OHLC-only data.",
+      "expected_observable_result": "Book fixture limits fills and accounts for each charge; OHLC result states intrabar ambiguity and cannot claim order-book fill fidelity.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 8,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0020",
+      "linked_requirement_ids": [
+        "QNT-FR-0020"
+      ],
+      "scenario": "Shared decision logic with separate adapters",
+      "preconditions": "Future implementation of QNT-FR-0020 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Run identical versioned inputs/config through paper and a disconnected live adapter; attempt shadow-to-live routing.",
+      "expected_observable_result": "Pre-adapter decisions match; routing isolation denies shadow orders, and records preserve distinct mode tags.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0021",
+      "linked_requirement_ids": [
+        "QNT-FR-0021"
+      ],
+      "scenario": "Explicit live activation",
+      "preconditions": "Future implementation of QNT-FR-0021 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Attempt activation with testnet success but failed model suitability, then without an authorized action.",
+      "expected_observable_result": "Both attempts are denied with missing gate/authorization reasons; no live order intent is dispatched.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 17,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0022",
+      "linked_requirement_ids": [
+        "QNT-FR-0022"
+      ],
+      "scenario": "Versioned multi-horizon probabilities",
+      "preconditions": "Future implementation of QNT-FR-0022 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Request supported horizons and supply NaN, negative or non-normalized probabilities.",
+      "expected_observable_result": "Valid distributions have separate horizons/versions; invalid distributions are rejected and cannot produce entries.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 7,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0023",
+      "linked_requirement_ids": [
+        "QNT-FR-0023"
+      ],
+      "scenario": "Reproducible matured labels",
+      "preconditions": "Future implementation of QNT-FR-0023 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Evaluate an exact positive/negative threshold boundary, an immature horizon and a missing end price.",
+      "expected_observable_result": "Boundary returns are RANGE under the proposed rule, immature/missing outcomes have no usable label, and original prediction timestamps are unchanged.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 7,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0024",
+      "linked_requirement_ids": [
+        "QNT-FR-0024"
+      ],
+      "scenario": "Scanner shortlist and context",
+      "preconditions": "Future implementation of QNT-FR-0024 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Use tied scores with one illiquid symbol and opposing short/long-horizon evidence.",
+      "expected_observable_result": "Ranking is repeatable, conflicting horizons and exclusion reasons are visible, and shortlist output has no order authority.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 6,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0025",
+      "linked_requirement_ids": [
+        "QNT-FR-0025"
+      ],
+      "scenario": "Net expected edge admission",
+      "preconditions": "Future implementation of QNT-FR-0025 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Use positive gross expected movement but greater round-trip estimated costs, then remove a material fee input.",
+      "expected_observable_result": "Both entries are rejected with net-edge/unknown-cost reasons; no forced trade occurs.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0026",
+      "linked_requirement_ids": [
+        "QNT-FR-0026"
+      ],
+      "scenario": "Session lifecycle controls",
+      "preconditions": "Future implementation of QNT-FR-0026 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Pause with exposure, attempt resume with stale data, then emergency-stop while disconnected. Restart and restore connectivity while exposure still exists.",
+      "expected_observable_result": "Protection remains active and stale resume is denied. Restart/reconciliation preserves the emergency latch and returns to EMERGENCY_RECOVERY, never RUNNING or PAUSED_PROTECTED while closure remains unresolved. Completion requires reconciled flat settlement; no instantaneous closure claim.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0027",
+      "linked_requirement_ids": [
+        "QNT-FR-0027"
+      ],
+      "scenario": "Target and deadline handling",
+      "preconditions": "Future implementation of QNT-FR-0027 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Reach target with pending entries; separately reach deadline with a partially filled entry during cancellation. Repeat deadline expiry during PREFLIGHT, BLOCKED and RECOVERING and restart after expiry; repeat recovery with an already persisted target latch.",
+      "expected_observable_result": "No new entry is accepted; late fills create protected residual exposure to close. Deadline/stop/valid-target latches survive every state and restart, with unresolved remote state retained as recovery until safe cancellation/closure is possible. Stale equity cannot newly trigger a target. Final result may be below target and only reconciled settlement ends the session.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0028",
+      "linked_requirement_ids": [
+        "QNT-FR-0028"
+      ],
+      "scenario": "Action vocabulary and partial reversal",
+      "preconditions": "Future implementation of QNT-FR-0028 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "In one fixture, fill only half a reversal close, then invalidate the opposite signal after closure. In another, fully close and reconcile the old position, approve a fresh opposite opportunity, then partially fill the new entry. Exercise HOLD, REDUCE and TAKE_PROFIT on valid exposure separately.",
+      "expected_observable_result": "Old residual exposure stays protected and no opposite order overlaps it. Invalid opposite opportunity leaves FLAT. An approved second leg has its own cost/risk/intent record, protects only confirmed new quantity and reserves pending quantity. HOLD retains protection; REDUCE and TAKE_PROFIT never exceed confirmed exposure, and their distinct reason/action records persist.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0029",
+      "linked_requirement_ids": [
+        "QNT-FR-0029"
+      ],
+      "scenario": "Restart and unknown exposure recovery",
+      "preconditions": "Future implementation of QNT-FR-0029 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Terminate after submission but before acknowledgement and restart with an existing exchange position.",
+      "expected_observable_result": "Restart enters RECOVERING, finds the intent/order and actual position, rebuilds protection and does not duplicate the entry.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0030",
+      "linked_requirement_ids": [
+        "QNT-FR-0030"
+      ],
+      "scenario": "Manual and external account changes",
+      "preconditions": "Future implementation of QNT-FR-0030 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Inject a manual order, deposit and position-mode change during a bot session.",
+      "expected_observable_result": "Discrepancies are recorded; external cash flow is separated from P&L, new bot exposure stops and resolution requires ownership/configuration review.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0031",
+      "linked_requirement_ids": [
+        "QNT-FR-0031"
+      ],
+      "scenario": "Single account authority and risk reservation",
+      "preconditions": "Future implementation of QNT-FR-0031 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Two sessions simultaneously request the last available risk budget; simulate an expired coordinator resuming.",
+      "expected_observable_result": "At most one reservation succeeds; stale coordinator dispatch is denied, and unknown pending orders retain reserved risk.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0032",
+      "linked_requirement_ids": [
+        "QNT-FR-0032"
+      ],
+      "scenario": "Sizing margin and exchange filters",
+      "preconditions": "Future implementation of QNT-FR-0032 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Use insufficient margin, a below-minimum rounded quantity and a filter change between sizing and dispatch.",
+      "expected_observable_result": "Each invalid entry is rejected or resized downward and revalidated; dust-close failure enters explicit recovery rather than opening more exposure.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0033",
+      "linked_requirement_ids": [
+        "QNT-FR-0033"
+      ],
+      "scenario": "Portfolio ceilings and correlation",
+      "preconditions": "Future implementation of QNT-FR-0033 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Offer individually valid orders that together breach a correlated bucket; remove correlation estimates.",
+      "expected_observable_result": "Combined admission fails; fallback reserves conservative exposure, hard ceilings remain unchanged and rejection reasons are logged.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0034",
+      "linked_requirement_ids": [
+        "QNT-FR-0034"
+      ],
+      "scenario": "Session equity and cash-flow accounting",
+      "preconditions": "Future implementation of QNT-FR-0034 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Start with 1000, deposit 100 and produce no trading P&L; then inject unattributable account activity.",
+      "expected_observable_result": "Target progress remains zero before close costs; unattributable activity blocks target-based claims and triggers reconciliation.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0035",
+      "linked_requirement_ids": [
+        "QNT-FR-0035"
+      ],
+      "scenario": "Fill ledger and final results",
+      "preconditions": "Future implementation of QNT-FR-0035 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Trade in the correct direction with gross fill P&L +1, fees 1.10 and funding paid 0.10; provide duplicate fill delivery.",
+      "expected_observable_result": "Net realized P&L is -0.20 exactly once; direction success is separate from net outcome, and spread/slippage analytics add no duplicate debit.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0036",
+      "linked_requirement_ids": [
+        "QNT-FR-0036"
+      ],
+      "scenario": "Pending cancellation and protection",
+      "preconditions": "Future implementation of QNT-FR-0036 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Target termination races with an entry fill and protective-order replacement.",
+      "expected_observable_result": "Residual fill is protected and closed under termination policy; protection is not removed while exposure remains and a failed replacement alerts recovery.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0037",
+      "linked_requirement_ids": [
+        "QNT-FR-0037"
+      ],
+      "scenario": "Decision priority and anti-churn",
+      "preconditions": "Future implementation of QNT-FR-0037 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "First alternate otherwise eligible bullish/bearish signals within a configured entry cooldown and admission window, with no stop, target or deadline trigger. Then separately repeat with a target and hard stop occurring together.",
+      "expected_observable_result": "In the signal-only fixture, increased-risk entries cannot exceed the configured admission count or bypass cooldown/hysteresis, and rejected signals have reason records. In the conflict fixture, stop/closure takes priority and entries remain inhibited. Necessary exits bypass entry cooldown in both fixtures.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0038",
+      "linked_requirement_ids": [
+        "QNT-FR-0038"
+      ],
+      "scenario": "Historical provenance and replay",
+      "preconditions": "Future implementation of QNT-FR-0038 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Replay a delisted symbol, missing interval and candle crossing both stop and target without intrabar data.",
+      "expected_observable_result": "The symbol is not silently excluded, the gap is flagged, and the conservative/ambiguous execution rule is recorded without claiming known path.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 5,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0039",
+      "linked_requirement_ids": [
+        "QNT-FR-0039"
+      ],
+      "scenario": "Data event integrity",
+      "preconditions": "Future implementation of QNT-FR-0039 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Deliver the same fill twice and a market sequence gap followed by an older snapshot.",
+      "expected_observable_result": "Fill applies once, gap triggers invalid quality/resync and the old snapshot cannot restore eligibility.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 4,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0040",
+      "linked_requirement_ids": [
+        "QNT-FR-0040"
+      ],
+      "scenario": "Learning evidence and attribution",
+      "preconditions": "Future implementation of QNT-FR-0040 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Provide a correct direction but losing trade, profitable risk breach and untraded matured forecast.",
+      "expected_observable_result": "All are retained; forecast, execution and risk evaluations remain distinct; unsupported causal statements are labelled hypotheses.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 14,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0041",
+      "linked_requirement_ids": [
+        "QNT-FR-0041"
+      ],
+      "scenario": "Shared-event deduplication and feedback",
+      "preconditions": "Future implementation of QNT-FR-0041 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "One forecast reaches 100 users and one user submits fabricated corrective labels.",
+      "expected_observable_result": "Market evidence count remains one, tenant fills stay separate and fabricated feedback does not enter training.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 14,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0042",
+      "linked_requirement_ids": [
+        "QNT-FR-0042"
+      ],
+      "scenario": "Controlled retraining triggers",
+      "preconditions": "Future implementation of QNT-FR-0042 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Observe one matured failure at predicted 70% UP without a drift/evidence trigger. Separately cross an approved sufficient-evidence or drift threshold with validated, deduplicated evidence.",
+      "expected_observable_result": "The isolated failure is recorded without model replacement. Crossing the registered trigger creates an offline candidate job linked to its evidence and trigger version; neither case mutates production weights/code or bypasses promotion and risk gates.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 14,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0043",
+      "linked_requirement_ids": [
+        "QNT-FR-0043"
+      ],
+      "scenario": "Leakage and selection safeguards",
+      "preconditions": "Future implementation of QNT-FR-0043 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Inject a future feature, overlapping train/evaluation horizons and repeated final-holdout tuning.",
+      "expected_observable_result": "Dataset/candidate is quarantined; results are invalidated with provenance and cannot satisfy model gates.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 7,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0044",
+      "linked_requirement_ids": [
+        "QNT-FR-0044"
+      ],
+      "scenario": "Calibration and suitability evaluation",
+      "preconditions": "Future implementation of QNT-FR-0044 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Candidate improves headline net returns but exceeds the drawdown ceiling or fails calibration.",
+      "expected_observable_result": "MODEL_SUITABILITY remains blocked, component metrics and failure reasons are retained, and production remains unchanged.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 10,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0045",
+      "linked_requirement_ids": [
+        "QNT-FR-0045"
+      ],
+      "scenario": "Auditable promotion and rollback",
+      "preconditions": "Future implementation of QNT-FR-0045 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Attempt a candidate promotion lacking shadow evidence, then rehearse rollback from a degraded candidate in a fixture.",
+      "expected_observable_result": "Incomplete promotion is denied; approved rollback restores pinned compatible versions and logs actor/reason without relaxing risk.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 14,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0046",
+      "linked_requirement_ids": [
+        "QNT-FR-0046"
+      ],
+      "scenario": "Shared models and private account state",
+      "preconditions": "Future implementation of QNT-FR-0046 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Two tenants consume one shared forecast with different risk ceilings and replay their decisions.",
+      "expected_observable_result": "Model version is shared, account/risk records remain isolated and each decision reproduces its own permitted quantity.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 14,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0047",
+      "linked_requirement_ids": [
+        "QNT-FR-0047"
+      ],
+      "scenario": "Readiness gates and honest claims",
+      "preconditions": "Future implementation of QNT-FR-0047 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Show a working paper UI driven by a research-only model that fails out-of-sample evaluation.",
+      "expected_observable_result": "Engineering/demo evidence may pass with conspicuous research-only labels; MODEL_SUITABILITY and LIVE_CAPITAL remain blocked.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0048",
+      "linked_requirement_ids": [
+        "QNT-FR-0048"
+      ],
+      "scenario": "Operational monitoring and incident recovery",
+      "preconditions": "Future implementation of QNT-FR-0048 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Disconnect the exchange, revoke a key and cause a protection gap in an isolated incident drill.",
+      "expected_observable_result": "Each symptom has correlated alert/owner/time evidence; incident is not resolved until exposure and protection reconcile.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 16,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0049",
+      "linked_requirement_ids": [
+        "QNT-FR-0049"
+      ],
+      "scenario": "Database and technology boundary",
+      "preconditions": "Phase 2 architecture proposal and versioned integration evidence register are available for review; no application or live account is required.",
+      "action_input": "Review the Phase 2 architecture and authoritative-state inventory.",
+      "expected_observable_result": "MongoDB owns durable application records and ledger intents; proposals are explicitly decided and additional compulsory technology has a documented need.",
+      "verification_method": "Document/ADR inspection against each stated obligation, with recorded reviewer findings and disposition; no behavioral execution claim.",
+      "verification_phase": 2,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0050",
+      "linked_requirement_ids": [
+        "QNT-FR-0050"
+      ],
+      "scenario": "Current integration verification",
+      "preconditions": "Phase 2 architecture proposal and versioned integration evidence register are available for review; no application or live account is required.",
+      "action_input": "Inspect integration contract with an unverified order-stream schema and an illustrative fee rate.",
+      "expected_observable_result": "Unverified fields cannot be used as production truth; execution compatibility and cost-validity gates remain blocked until evidence is supplied.",
+      "verification_method": "Document/ADR inspection against each stated obligation, with recorded reviewer findings and disposition; no behavioral execution claim.",
+      "verification_phase": 2,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0051",
+      "linked_requirement_ids": [
+        "QNT-INV-0001"
+      ],
+      "scenario": "Risk overrides predictions",
+      "preconditions": "Future implementation of QNT-INV-0001 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Inject a 99% forecast during a hard-risk breach.",
+      "expected_observable_result": "No increased exposure is admitted; risk-reducing action and breach reason are persisted.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0052",
+      "linked_requirement_ids": [
+        "QNT-INV-0002"
+      ],
+      "scenario": "Independent exit and opposite entry",
+      "preconditions": "Future implementation of QNT-INV-0002 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Invalidate a SHORT with +$1 unrealized profit and $1.20 total estimated reversal cost.",
+      "expected_observable_result": "Invalid SHORT is submitted for closure even if net closure is a loss; the $1.20 aggregate is not used as an exit veto; opposite entry requires independently available entry-edge/cost evidence.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0053",
+      "linked_requirement_ids": [
+        "QNT-INV-0003"
+      ],
+      "scenario": "FLAT and NO TRADE",
+      "preconditions": "Future implementation of QNT-INV-0003 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Invalidate the open position when no opposite opportunity exists.",
+      "expected_observable_result": "Close is requested and confirmed exposure becomes FLAT; no replacement entry is submitted.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0054",
+      "linked_requirement_ids": [
+        "QNT-INV-0004"
+      ],
+      "scenario": "Invalid SHORT exit",
+      "preconditions": "Future implementation of QNT-INV-0004 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Make LONG entry expensive while the SHORT exit criterion remains true.",
+      "expected_observable_result": "SHORT closure proceeds under protection/recovery policy and LONG is rejected with its own reason.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0055",
+      "linked_requirement_ids": [
+        "QNT-INV-0005"
+      ],
+      "scenario": "No loss recovery escalation",
+      "preconditions": "Future implementation of QNT-INV-0005 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Repeat losses and move the deadline nearer without changing validated market evidence.",
+      "expected_observable_result": "Risk/leverage/frequency ceilings do not rise due to losses, target shortfall or remaining time.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0056",
+      "linked_requirement_ids": [
+        "QNT-INV-0006"
+      ],
+      "scenario": "Risk-derived quantity",
+      "preconditions": "Future implementation of QNT-INV-0006 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Halve available risk budget with identical prices and stop distance.",
+      "expected_observable_result": "Permitted quantity cannot increase and remains rounded within all constraints.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0057",
+      "linked_requirement_ids": [
+        "QNT-INV-0007"
+      ],
+      "scenario": "Stop distinct from liquidation",
+      "preconditions": "Future implementation of QNT-INV-0007 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Propose an entry whose only stop is liquidation or whose liquidation buffer is inadequate.",
+      "expected_observable_result": "Entry is denied with missing/inadequate stop reason.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0058",
+      "linked_requirement_ids": [
+        "QNT-INV-0008"
+      ],
+      "scenario": "Costs without double counting",
+      "preconditions": "Future implementation of QNT-INV-0008 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Reconcile fills with measured slippage and explicit commissions/funding.",
+      "expected_observable_result": "Net ledger equals fill-based P&L minus fees plus signed funding; slippage is attribution only.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0059",
+      "linked_requirement_ids": [
+        "QNT-INV-0009"
+      ],
+      "scenario": "Reconcile unknown status",
+      "preconditions": "Future implementation of QNT-INV-0009 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Return submission timeout after exchange acceptance but before acknowledgement.",
+      "expected_observable_result": "Intent remains UNKNOWN with reservation; order queries/events resolve it, and no second exposure-increasing order is sent on timeout alone.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0060",
+      "linked_requirement_ids": [
+        "QNT-INV-0010"
+      ],
+      "scenario": "Critical-input freshness",
+      "preconditions": "Future implementation of QNT-INV-0010 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Stale feed occurs with an open position and existing protection.",
+      "expected_observable_result": "Entries stop, protection remains, stale values are not treated as fresh, and inability to verify/manage exposure is alerted.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0061",
+      "linked_requirement_ids": [
+        "QNT-INV-0011"
+      ],
+      "scenario": "Exit bypasses entry cooldown",
+      "preconditions": "Future implementation of QNT-INV-0011 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Trigger a stop immediately after an entry cooldown begins.",
+      "expected_observable_result": "Closure is dispatched without waiting for cooldown, unless unknown order state requires reconciliation to avoid increased exposure.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0062",
+      "linked_requirement_ids": [
+        "QNT-INV-0012"
+      ],
+      "scenario": "Mode isolation",
+      "preconditions": "Future implementation of QNT-INV-0012 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Forge a LIVE route in a shadow or demo event.",
+      "expected_observable_result": "Dispatcher rejects environment/authority mismatch before any exchange request.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0063",
+      "linked_requirement_ids": [
+        "QNT-INV-0013"
+      ],
+      "scenario": "Durable intent before dispatch",
+      "preconditions": "Future implementation of QNT-INV-0013 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Crash before dispatch, after dispatch and before fill persistence in separate runs.",
+      "expected_observable_result": "Recovery finds durable intents, reconciles actual exchange status, deduplicates effects and neither assumes rollback nor blindly resubmits.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0064",
+      "linked_requirement_ids": [
+        "QNT-INV-0014"
+      ],
+      "scenario": "Outage closure limitations",
+      "preconditions": "Future implementation of QNT-INV-0014 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Request emergency flatten while exchange requests time out.",
+      "expected_observable_result": "UI and audit retain exposed/unknown recovery state, alert owner and never report CLOSED until reconciled.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 12,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0065",
+      "linked_requirement_ids": [
+        "QNT-INV-0015"
+      ],
+      "scenario": "LLM authority boundary",
+      "preconditions": "Future implementation of QNT-INV-0015 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Supply an LLM response asking to bypass risk and place an order.",
+      "expected_observable_result": "The text cannot mint an authorized order intent or change hard limits; the deterministic pipeline remains authoritative.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 9,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0066",
+      "linked_requirement_ids": [
+        "QNT-NFR-0001"
+      ],
+      "scenario": "Freshness budgets by input and horizon",
+      "preconditions": "Future implementation of QNT-NFR-0001 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Inject ages at the configured limit, just beyond it and a future timestamp beyond skew tolerance.",
+      "expected_observable_result": "At-limit acceptance follows the declared inclusive rule; beyond-limit/future-invalid inputs cannot authorize risk. Reports show age by input and horizon.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 4,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0067",
+      "linked_requirement_ids": [
+        "QNT-NFR-0002"
+      ],
+      "scenario": "Latency measurement",
+      "preconditions": "Future implementation of QNT-NFR-0002 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Run the approved synthetic workload including timeouts and capture traces.",
+      "expected_observable_result": "Every segment has timestamps and distributions; timeouts are counted rather than dropped; unknown budgets block latency readiness claims.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 10,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0068",
+      "linked_requirement_ids": [
+        "QNT-NFR-0003"
+      ],
+      "scenario": "Recovery objectives",
+      "preconditions": "Future implementation of QNT-NFR-0003 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Kill a worker after dispatch and restore a database snapshot with lagging events.",
+      "expected_observable_result": "Measured RTO/RPO and any missing intents/events are reported; no safe-recovery PASS without reconciliation and objective compliance.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 16,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0069",
+      "linked_requirement_ids": [
+        "QNT-NFR-0004"
+      ],
+      "scenario": "Reliability and capacity",
+      "preconditions": "Future implementation of QNT-NFR-0004 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Exceed the approved simultaneous-session and order workload during a feed burst.",
+      "expected_observable_result": "Admission/backpressure occurs without bypassing risk or starving reconciliation; workload and service percentiles are published.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 16,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0070",
+      "linked_requirement_ids": [
+        "QNT-NFR-0005"
+      ],
+      "scenario": "Security and audit completeness",
+      "preconditions": "Future implementation of QNT-NFR-0005 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Inject denied operations, secret sentinels and an audit-record modification.",
+      "expected_observable_result": "No unauthorized mutation or disclosed sentinel; each attempted/accepted operation is attributable and audit tampering is detected.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 16,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0071",
+      "linked_requirement_ids": [
+        "QNT-NFR-0006"
+      ],
+      "scenario": "Reproducibility",
+      "preconditions": "Future implementation of QNT-NFR-0006 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Repeat the same replay twice from immutable manifests.",
+      "expected_observable_result": "Decision IDs/quantities/reasons and ledger values match exactly; numerical model deviations are within declared tolerance or evaluation fails.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 10,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0072",
+      "linked_requirement_ids": [
+        "QNT-NFR-0007"
+      ],
+      "scenario": "Observable and actionable incidents",
+      "preconditions": "Future implementation of QNT-NFR-0007 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Inject one protection gap and one repeated alert storm.",
+      "expected_observable_result": "One correlated incident retains repeat counts and latency measurement, routes to an owner, and stays unresolved until exposure is verified.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 16,
+      "execution_status": "NOT_RUN"
+    },
+    {
+      "id": "QNT-AT-0073",
+      "linked_requirement_ids": [
+        "QNT-NFR-0008"
+      ],
+      "scenario": "Accessible responsive UI",
+      "preconditions": "Future implementation of QNT-NFR-0008 is available in an isolated fixture; no real capital or production credentials. Versioned inputs and expected policy configuration are recorded.",
+      "action_input": "Navigate by keyboard and inspect the three viewport fixtures with contrast measurement.",
+      "expected_observable_result": "Controls remain operable, mode/protection status remains visible, contrast meets the target and failures block UI readiness.",
+      "verification_method": "Automated fixture/integration test with persisted events and rejected-action assertions; reviewer inspects the evidence against this oracle.",
+      "verification_phase": 11,
+      "execution_status": "NOT_RUN"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+# Functional requirements index
+
+Normative text is maintained only in requirements.json. Each entry links by stable ID to its phase and future acceptance oracle; no requirement is implemented in this phase.
+
+- **QNT-FR-0001** — Dynamic futures universe. Category: market; primary phase 4; USER_CONFIRMED; acceptance QNT-AT-0001.
+- **QNT-FR-0002** — Separate scan and execution eligibility. Category: market; primary phase 6; USER_CONFIRMED; acceptance QNT-AT-0002.
+- **QNT-FR-0003** — Contract lifecycle changes. Category: market; primary phase 4; USER_CONFIRMED; acceptance QNT-AT-0003.
+- **QNT-FR-0004** — Required and optional input manifests. Category: data; primary phase 4; USER_CONFIRMED; acceptance QNT-AT-0004.
+- **QNT-FR-0005** — Public market data access. Category: data; primary phase 4; USER_CONFIRMED; acceptance QNT-AT-0005.
+- **QNT-FR-0006** — Integration credential lifecycle. Category: security; primary phase 3; USER_CONFIRMED; acceptance QNT-AT-0006.
+- **QNT-FR-0007** — Secret storage boundary. Category: security; primary phase 3; USER_CONFIRMED; acceptance QNT-AT-0007.
+- **QNT-FR-0008** — Credential change with exposure. Category: execution; primary phase 12; USER_CONFIRMED; acceptance QNT-AT-0008.
+- **QNT-FR-0009** — Supported integration destinations. Category: security; primary phase 3; USER_CONFIRMED; acceptance QNT-AT-0009.
+- **QNT-FR-0010** — Role authorization. Category: security; primary phase 3; USER_CONFIRMED; acceptance QNT-AT-0010.
+- **QNT-FR-0011** — Tenant and environment isolation. Category: security; primary phase 3; USER_CONFIRMED; acceptance QNT-AT-0011.
+- **QNT-FR-0012** — Retention export and deletion. Category: security; primary phase 15; USER_CONFIRMED; acceptance QNT-AT-0012.
+- **QNT-FR-0013** — Chart-centered workspace. Category: dashboard; primary phase 11; USER_CONFIRMED; acceptance QNT-AT-0013.
+- **QNT-FR-0014** — Chart overlays and saved workspace. Category: dashboard; primary phase 11; USER_CONFIRMED; acceptance QNT-AT-0014.
+- **QNT-FR-0015** — Bounded chart tools. Category: dashboard; primary phase 11; PROPOSED; acceptance QNT-AT-0015.
+- **QNT-FR-0016** — Honest UI status states. Category: dashboard; primary phase 11; USER_CONFIRMED; acceptance QNT-AT-0016.
+- **QNT-FR-0017** — Built-in virtual account. Category: demo; primary phase 11; USER_CONFIRMED; acceptance QNT-AT-0017.
+- **QNT-FR-0018** — Paper reset epochs. Category: demo; primary phase 11; USER_CONFIRMED; acceptance QNT-AT-0018.
+- **QNT-FR-0019** — Execution simulator realism. Category: demo; primary phase 8; USER_CONFIRMED; acceptance QNT-AT-0019.
+- **QNT-FR-0020** — Shared decision logic with separate adapters. Category: demo; primary phase 11; USER_CONFIRMED; acceptance QNT-AT-0020.
+- **QNT-FR-0021** — Explicit live activation. Category: release; primary phase 17; USER_CONFIRMED; acceptance QNT-AT-0021.
+- **QNT-FR-0022** — Versioned multi-horizon probabilities. Category: forecast; primary phase 7; USER_CONFIRMED; acceptance QNT-AT-0022.
+- **QNT-FR-0023** — Reproducible matured labels. Category: forecast; primary phase 7; USER_CONFIRMED; acceptance QNT-AT-0023.
+- **QNT-FR-0024** — Scanner shortlist and context. Category: forecast; primary phase 6; USER_CONFIRMED; acceptance QNT-AT-0024.
+- **QNT-FR-0025** — Net expected edge admission. Category: risk; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0025.
+- **QNT-FR-0026** — Session lifecycle controls. Category: session; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0026.
+- **QNT-FR-0027** — Target and deadline handling. Category: session; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0027.
+- **QNT-FR-0028** — Action vocabulary and partial reversal. Category: session; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0028.
+- **QNT-FR-0029** — Restart and unknown exposure recovery. Category: execution; primary phase 12; USER_CONFIRMED; acceptance QNT-AT-0029.
+- **QNT-FR-0030** — Manual and external account changes. Category: execution; primary phase 12; USER_CONFIRMED; acceptance QNT-AT-0030.
+- **QNT-FR-0031** — Single account authority and risk reservation. Category: risk; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0031.
+- **QNT-FR-0032** — Sizing margin and exchange filters. Category: risk; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0032.
+- **QNT-FR-0033** — Portfolio ceilings and correlation. Category: risk; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0033.
+- **QNT-FR-0034** — Session equity and cash-flow accounting. Category: accounting; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0034.
+- **QNT-FR-0035** — Fill ledger and final results. Category: accounting; primary phase 12; USER_CONFIRMED; acceptance QNT-AT-0035.
+- **QNT-FR-0036** — Pending cancellation and protection. Category: execution; primary phase 12; USER_CONFIRMED; acceptance QNT-AT-0036.
+- **QNT-FR-0037** — Decision priority and anti-churn. Category: risk; primary phase 9; USER_CONFIRMED; acceptance QNT-AT-0037.
+- **QNT-FR-0038** — Historical provenance and replay. Category: data; primary phase 5; USER_CONFIRMED; acceptance QNT-AT-0038.
+- **QNT-FR-0039** — Data event integrity. Category: data; primary phase 4; USER_CONFIRMED; acceptance QNT-AT-0039.
+- **QNT-FR-0040** — Learning evidence and attribution. Category: learning; primary phase 14; USER_CONFIRMED; acceptance QNT-AT-0040.
+- **QNT-FR-0041** — Shared-event deduplication and feedback. Category: learning; primary phase 14; USER_CONFIRMED; acceptance QNT-AT-0041.
+- **QNT-FR-0042** — Controlled retraining triggers. Category: learning; primary phase 14; USER_CONFIRMED; acceptance QNT-AT-0042.
+- **QNT-FR-0043** — Leakage and selection safeguards. Category: learning; primary phase 7; USER_CONFIRMED; acceptance QNT-AT-0043.
+- **QNT-FR-0044** — Calibration and suitability evaluation. Category: learning; primary phase 10; USER_CONFIRMED; acceptance QNT-AT-0044.
+- **QNT-FR-0045** — Auditable promotion and rollback. Category: learning; primary phase 14; USER_CONFIRMED; acceptance QNT-AT-0045.
+- **QNT-FR-0046** — Shared models and private account state. Category: learning; primary phase 14; USER_CONFIRMED; acceptance QNT-AT-0046.
+- **QNT-FR-0047** — Readiness gates and honest claims. Category: release; primary phase 10; USER_CONFIRMED; acceptance QNT-AT-0047.
+- **QNT-FR-0048** — Operational monitoring and incident recovery. Category: operations; primary phase 16; USER_CONFIRMED; acceptance QNT-AT-0048.
+- **QNT-FR-0049** — Database and technology boundary. Category: architecture; primary phase 2; USER_CONFIRMED; acceptance QNT-AT-0049.
+- **QNT-FR-0050** — Current integration verification. Category: architecture; primary phase 2; USER_CONFIRMED; acceptance QNT-AT-0050.

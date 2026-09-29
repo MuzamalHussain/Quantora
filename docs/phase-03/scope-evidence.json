@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "phase": 3,
+  "status": "PASS",
+  "verified_at_utc": "2026-09-22T02:44:34Z",
+  "gate_run": "docs/phase-03/evidence/20260922T024259Z/gate.json",
+  "future_acceptance_status": "NOT_RUN",
+  "status_authority": "docs/phase-03/evidence/gate-latest.json",
+  "requirement_ids": [
+    "QNT-FR-0006", "QNT-FR-0007", "QNT-FR-0009", "QNT-FR-0010", "QNT-FR-0011",
+    "QNT-FR-0012", "QNT-FR-0029", "QNT-FR-0038", "QNT-FR-0039", "QNT-FR-0045",
+    "QNT-FR-0046", "QNT-FR-0047", "QNT-FR-0048", "QNT-FR-0049",
+    "QNT-INV-0009", "QNT-INV-0012", "QNT-INV-0013", "QNT-INV-0014", "QNT-INV-0015",
+    "QNT-NFR-0003", "QNT-NFR-0005", "QNT-NFR-0006", "QNT-NFR-0007"
+  ],
+  "extensions": ["P3-EXT-AUTH", "P3-EXT-MIGRATION", "P3-EXT-IDEMPOTENCY", "P3-EXT-BACKUP", "P3-EXT-LOCAL-MAIL"],
+  "artifacts": [
+    "services/control-api/quantora_api/security.py", "services/control-api/quantora_api/data.py",
+    "services/control-api/quantora_api/saas.py", "services/control-api/quantora_api/saas_routes.py",
+    "services/control-api/quantora_api/backup.py", "services/control-api/quantora_api/manage.py",
+    "services/control-api/tests/test_saas.py", "apps/web/src/Account.tsx", "tests/browser/saas.spec.ts",
+    "scripts/verify_phase03.py", "scripts/phase03_test_control.py", "infra/phase03-application-role.json"
+  ],
+  "historical_evidence": {
+    "real_integration": "8 passed in 37.32s on 2026-09-21 before later mail/UI changes",
+    "independent_current": "Ruff PASS; mypy PASS; web build PASS; 37 Python tests PASS in 8.88s"
+  },
+  "mandatory_blockers": [],
+  "final_checks": {
+    "previous_phase_gate": "PASS",
+    "phase03_integration": "PASS",
+    "phase03_browser": "PASS",
+    "documentation": "PASS"
+  },
+  "full_requirement_completion": false,
+  "phase4_started": false
+}

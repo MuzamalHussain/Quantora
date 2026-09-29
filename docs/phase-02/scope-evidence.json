@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "phase": 2,
+  "status": "PASS",
+  "status_authority": "evidence/gate-latest.json",
+  "future_acceptance_status": "NOT_RUN",
+  "items": [
+    {
+      "id": "P2-BASELINE",
+      "requirement_ids": [
+        "QNT-FR-0047"
+      ],
+      "artifacts": [
+        "docs/phase-02/baseline-hashes.json"
+      ],
+      "gate_checks": [
+        "baseline_hashes",
+        "phase01",
+        "phase01_regression"
+      ],
+      "scope": "Historical baseline preserved; all future acceptance remains NOT_RUN",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "baseline_hashes": "PASS",
+        "phase01": "PASS",
+        "phase01_regression": "PASS"
+      }
+    },
+    {
+      "id": "P2-ARCH",
+      "requirement_ids": [
+        "QNT-FR-0049",
+        "QNT-FR-0011",
+        "QNT-FR-0029",
+        "QNT-FR-0031",
+        "QNT-INV-0013"
+      ],
+      "artifacts": [
+        "docs/phase-02/architecture.md",
+        "docs/phase-02/service-and-data-boundaries.md",
+        "docs/phase-02/decision-resolutions.md"
+      ],
+      "gate_checks": [
+        "documentation"
+      ],
+      "scope": "Foundation topology selected; financial durability/fencing only designed",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "documentation": "PASS"
+      }
+    },
+    {
+      "id": "P2-CORE",
+      "requirement_ids": [
+        "QNT-NFR-0002",
+        "QNT-NFR-0004",
+        "QNT-INV-0012",
+        "QNT-INV-0015"
+      ],
+      "artifacts": [
+        "services/trading-core/src/lib.rs",
+        "services/trading-core/src/main.rs"
+      ],
+      "gate_checks": [
+        "rust_fmt",
+        "rust_build",
+        "rust_clippy",
+        "rust_tests",
+        "runtime"
+      ],
+      "scope": "Bounded health/ping service only; trading absent",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "rust_fmt": "PASS",
+        "rust_build": "PASS",
+        "rust_clippy": "PASS",
+        "rust_tests": "PASS",
+        "runtime": "BLOCKED"
+      },
+      "runtime_detail": {
+        "startup_liveness": "PASS",
+        "api_core_contract": "PASS",
+        "real_dependencies": "BLOCKED",
+        "unavailable_dependency_readiness": "PASS",
+        "live_configuration_rejection": "PASS",
+        "browser": "PASS",
+        "preview_cleanup": "PASS",
+        "api_shutdown": "PASS",
+        "api_redaction": "PASS",
+        "core_shutdown": "PASS",
+        "core_redaction": "PASS"
+      }
+    },
+    {
+      "id": "P2-API",
+      "requirement_ids": [
+        "QNT-FR-0016",
+        "QNT-FR-0048",
+        "QNT-NFR-0005",
+        "QNT-NFR-0007"
+      ],
+      "artifacts": [
+        "services/control-api/quantora_api/app.py",
+        "services/control-api/tests/test_foundation.py"
+      ],
+      "gate_checks": [
+        "python_lint",
+        "python_types",
+        "python_tests",
+        "runtime"
+      ],
+      "scope": "Health/config/error/log/limits and dependency probes; no tenant business API",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "python_lint": "PASS",
+        "python_types": "PASS",
+        "python_tests": "PASS",
+        "runtime": "BLOCKED"
+      },
+      "runtime_detail": {
+        "startup_liveness": "PASS",
+        "api_core_contract": "PASS",
+        "real_dependencies": "BLOCKED",
+        "unavailable_dependency_readiness": "PASS",
+        "live_configuration_rejection": "PASS",
+        "browser": "PASS",
+        "preview_cleanup": "PASS",
+        "api_shutdown": "PASS",
+        "api_redaction": "PASS",
+        "core_shutdown": "PASS",
+        "core_redaction": "PASS"
+      }
+    },
+    {
+      "id": "P2-UI",
+      "requirement_ids": [
+        "QNT-FR-0013",
+        "QNT-FR-0014",
+        "QNT-FR-0015",
+        "QNT-FR-0016",
+        "QNT-NFR-0008"
+      ],
+      "artifacts": [
+        "apps/web/src/main.tsx",
+        "apps/web/src/Chart.tsx",
+        "apps/web/src/fixtures.ts",
+        "tests/browser/foundation.spec.ts",
+        "docs/phase-02/chart-engine-evaluation.md"
+      ],
+      "gate_checks": [
+        "web_build",
+        "web_tests",
+        "runtime"
+      ],
+      "scope": "Fixture candles/volume/reference overlay; full indicators/drawings/saved workspace deferred",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "web_build": "PASS",
+        "web_tests": "PASS",
+        "runtime": "BLOCKED"
+      },
+      "runtime_detail": {
+        "startup_liveness": "PASS",
+        "api_core_contract": "PASS",
+        "real_dependencies": "BLOCKED",
+        "unavailable_dependency_readiness": "PASS",
+        "live_configuration_rejection": "PASS",
+        "browser": "PASS",
+        "preview_cleanup": "PASS",
+        "api_shutdown": "PASS",
+        "api_redaction": "PASS",
+        "core_shutdown": "PASS",
+        "core_redaction": "PASS"
+      }
+    },
+    {
+      "id": "P2-CONTRACTS",
+      "requirement_ids": [
+        "QNT-FR-0022",
+        "QNT-FR-0028",
+        "QNT-FR-0039",
+        "QNT-NFR-0006",
+        "QNT-INV-0002",
+        "QNT-INV-0003"
+      ],
+      "artifacts": [
+        "contracts/foundation-v1.schema.json",
+        "contracts/fixtures.json",
+        "apps/web/src/contracts.generated.d.ts",
+        "docs/phase-02/contracts-and-versioning.md"
+      ],
+      "gate_checks": [
+        "rust_tests",
+        "python_tests",
+        "web_tests",
+        "generated_contracts"
+      ],
+      "scope": "Canonical structural envelopes; not business semantics or financial correctness",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "rust_tests": "PASS",
+        "python_tests": "PASS",
+        "web_tests": "PASS",
+        "generated_contracts": "PASS"
+      }
+    },
+    {
+      "id": "P2-SECRETS",
+      "requirement_ids": [
+        "QNT-FR-0006",
+        "QNT-FR-0007",
+        "QNT-FR-0021",
+        "QNT-INV-0012"
+      ],
+      "artifacts": [
+        ".env.example",
+        "contracts/secret-manager-interface.md",
+        "docs/phase-02/configuration-and-secrets.md"
+      ],
+      "gate_checks": [
+        "rust_tests",
+        "python_tests",
+        "runtime"
+      ],
+      "scope": "Bootstrap validation/LIVE rejection; future dashboard custody interface only",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "rust_tests": "PASS",
+        "python_tests": "PASS",
+        "runtime": "BLOCKED"
+      },
+      "runtime_detail": {
+        "startup_liveness": "PASS",
+        "api_core_contract": "PASS",
+        "real_dependencies": "BLOCKED",
+        "unavailable_dependency_readiness": "PASS",
+        "live_configuration_rejection": "PASS",
+        "browser": "PASS",
+        "preview_cleanup": "PASS",
+        "api_shutdown": "PASS",
+        "api_redaction": "PASS",
+        "core_shutdown": "PASS",
+        "core_redaction": "PASS"
+      }
+    },
+    {
+      "id": "P2-INFRA",
+      "requirement_ids": [
+        "QNT-FR-0049",
+        "QNT-NFR-0003",
+        "QNT-INV-0013"
+      ],
+      "artifacts": [
+        "infra/compose.yaml",
+        "infra/init-replica.js",
+        "infra/images.lock.json",
+        "docs/phase-02/local-development.md"
+      ],
+      "gate_checks": [
+        "compose_config",
+        "runtime"
+      ],
+      "scope": "Digest-pinned definitions; real Mongo/Redis gate required and currently blocked",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "compose_config": "BLOCKED",
+        "runtime": "BLOCKED"
+      },
+      "runtime_detail": {
+        "startup_liveness": "PASS",
+        "api_core_contract": "PASS",
+        "real_dependencies": "BLOCKED",
+        "unavailable_dependency_readiness": "PASS",
+        "live_configuration_rejection": "PASS",
+        "browser": "PASS",
+        "preview_cleanup": "PASS",
+        "api_shutdown": "PASS",
+        "api_redaction": "PASS",
+        "core_shutdown": "PASS",
+        "core_redaction": "PASS"
+      }
+    },
+    {
+      "id": "P2-RECOVERY",
+      "requirement_ids": [
+        "QNT-FR-0048",
+        "QNT-NFR-0002",
+        "QNT-NFR-0003",
+        "QNT-NFR-0004",
+        "QNT-INV-0014"
+      ],
+      "artifacts": [
+        "docs/phase-02/recovery-and-observability.md",
+        "scripts/verify_runtime.py"
+      ],
+      "gate_checks": [
+        "python_tests",
+        "rust_tests",
+        "runtime"
+      ],
+      "scope": "Graceful foundation stop; no production failover/restore/capacity promise",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "python_tests": "PASS",
+        "rust_tests": "PASS",
+        "runtime": "BLOCKED"
+      },
+      "runtime_detail": {
+        "startup_liveness": "PASS",
+        "api_core_contract": "PASS",
+        "real_dependencies": "BLOCKED",
+        "unavailable_dependency_readiness": "PASS",
+        "live_configuration_rejection": "PASS",
+        "browser": "PASS",
+        "preview_cleanup": "PASS",
+        "api_shutdown": "PASS",
+        "api_redaction": "PASS",
+        "core_shutdown": "PASS",
+        "core_redaction": "PASS"
+      }
+    },
+    {
+      "id": "P2-EVIDENCE",
+      "requirement_ids": [
+        "QNT-FR-0047",
+        "QNT-FR-0050"
+      ],
+      "artifacts": [
+        "scripts/verify_phase02.py",
+        "docs/phase-02/verification-matrix.md",
+        "docs/phase-02/sources.md",
+        "docs/phase-02/phase-02-report.md"
+      ],
+      "gate_checks": [
+        "documentation"
+      ],
+      "scope": "No exchange compatibility claims; final mandatory gate distinguishes blocked from pass",
+      "full_requirement_completion": false,
+      "evidence": "docs/phase-02/evidence/gate-latest.json",
+      "verification": {
+        "documentation": "PASS"
+      }
+    }
+  ],
+  "verified_at_utc": "2026-09-21T09:01:01Z",
+  "mandatory_blockers": []
+}

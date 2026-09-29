@@ -1,0 +1,72 @@
+import { expect, test } from '@playwright/test';
+import { createDecipheriv, createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+
+test.skip(process.env.QUANTORA_PHASE3_BROWSER !== '1', 'Phase 3 runner owns isolated DB and synthetic custody keys');
+test('real authentication, verification, settings, custody and expired session UI', async ({ page }) => {
+  const email = `browser-${Date.now()}@example.test`;
+  const secret = 'SYNTHETIC_BROWSER_SECRET_983701';
+  await page.goto('/#account');
+  await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'Create account', exact: true }).click();
+  await page.getByLabel('Email', { exact: true }).fill(email);
+  await page.getByLabel('Password', { exact: true }).fill('Synthetic-browser-password-73!');
+  await page.getByRole('button', { name: 'Register', exact: true }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Registration processed' })).toContainText('Registration processed');
+  await page.getByRole('button', { name: 'Use existing account' }).click();
+  await page.getByLabel('Email', { exact: true }).fill(email);
+  await page.getByLabel('Password', { exact: true }).fill('Synthetic-browser-password-73!');
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  await expect(page.getByTestId('signed-in')).toContainText(email);
+  await page.getByLabel('Recovery email').fill(email);
+  await page.getByRole('button', { name: 'Request local delivery' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'local delivery' })).toContainText('local delivery');
+  // Read only the isolated test mailbox, with the separately injected ephemeral key.
+  const id = createHash('sha256').update(email+':verify').digest('hex');
+  const entry = JSON.parse(readFileSync(path.join(process.env.QUANTORA_LOCAL_MAIL_DIR!, id+'.json'), 'utf8'));
+  const keys = JSON.parse(process.env.QUANTORA_CUSTODY_KEYS!);
+  const cipher = Buffer.from(entry.ciphertext, 'base64');
+  const decrypt = createDecipheriv('aes-256-gcm', Buffer.from(keys[entry.key_id], 'base64'), Buffer.from(entry.nonce, 'base64'));
+  // Python sorted-key JSON separators are canonical for AAD.
+  decrypt.setAAD(Buffer.from(JSON.stringify({_id:id,environment:'LOCAL',provider:'verify',scope:'DEVELOPMENT',tenant_id:'LOCAL_MAIL'})));
+  decrypt.setAuthTag(cipher.subarray(-16));
+  const delivery = JSON.parse(Buffer.concat([decrypt.update(cipher.subarray(0,-16)),decrypt.final()]).toString());
+  await page.getByLabel('Email verification token').fill(delivery.token);
+  await page.getByRole('button', { name: 'Verify email', exact: true }).click();
+  await expect(page.getByTestId('signed-in')).toContainText('Email verified');
+  await page.getByLabel('Default timeframe preference').selectOption('5');
+  await page.getByRole('button', { name: 'Save preferences' }).click();
+  await expect(page.getByRole('status').filter({ hasText: 'Preferences saved' })).toContainText('Preferences saved');
+  await page.getByLabel('API key', { exact: true }).fill(secret);
+  await page.getByLabel('API secret', { exact: true }).fill(secret);
+  await page.getByRole('button', { name: 'Store credential' }).click();
+  const records = page.getByRole('list', { name: 'Stored integrations' });
+  await expect(records).toContainText('BINANCE / TESTNET');
+  await expect(records).toContainText('Stored — connection not verified');
+  await expect(page.getByLabel('API secret', { exact: true })).toHaveValue('');
+  expect(await page.evaluate(() => JSON.stringify({local:{...localStorage}, session:{...sessionStorage}}))).not.toContain(secret);
+  expect(await page.locator('body').innerText()).not.toContain(secret);
+  await records.getByRole('button', { name: 'Replace', exact: true }).click();
+  await page.getByLabel('API key', { exact: true }).fill(secret+'2');
+  await page.getByLabel('API secret', { exact: true }).fill(secret+'2');
+  await page.getByRole('button', { name: 'Save replacement' }).click();
+  await expect(page.getByRole('button', { name: 'Store credential' })).toBeVisible();
+  await records.getByRole('button', { name: 'Disable', exact: true }).click();
+  await expect(records).toContainText('Disabled');
+  for(const width of [1440,768,360]) {
+    await page.setViewportSize({width,height:1000});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await page.screenshot({path:`docs/phase-03/evidence/account-${width}.png`, fullPage:true});
+  }
+  await records.getByRole('button', { name: 'Remove', exact: true }).click();
+  await expect(records.locator('li')).toHaveCount(0);
+  execFileSync(path.resolve('.venv/Scripts/python.exe'), ['scripts/phase03_test_control.py', 'expire', email], {stdio:'pipe'});
+  await page.reload();
+  await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toBeVisible();
+  await expect(page.getByRole('form', { name: 'Credential storage' })).toHaveCount(0);
+  await page.getByRole('link', { name: 'Back to fixture workspace' }).click();
+  await expect(page.getByRole('button', {name:'Start session'})).toBeDisabled();
+  await expect(page.getByText('Fixture data — deterministic demo', {exact:false})).toBeVisible();
+});

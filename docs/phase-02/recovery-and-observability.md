@@ -1,0 +1,13 @@
+# Recovery and observability
+
+Liveness reports process availability; readiness reports capability dependencies. Control API needs compatible core health, writable quantora-rs primary and Redis PING. The core has no persistent responsibility yet, so its readiness checks its bounded worker channel. Redis is required for the selected complete foundation topology, even though it is disposable; its absence cannot earn full readiness.
+
+Every application response carries a normalized v4 correlation UUID and no-store headers. Structured logs carry service/event/UUID/status/UTC milliseconds and request duration. Exception/input text is not a log field. Core uses std::time::Instant and API uses monotonic time for elapsed durations. The foundation can aggregate these records into p50/p95/p99 later; it does not claim production percentiles from a small local run. UTC clock skew matters for displayed freshness and never substitutes for duration measurement.
+
+Core handles Ctrl+C, Windows Ctrl+Break and Unix SIGTERM, drains the HTTP server, closes its sender and awaits worker completion for five seconds. API lifespan closes HTTP/Mongo/Redis clients, records shutdown and uses a five-second Uvicorn shutdown timeout. The verification harness allows eight seconds for a graceful process exit and reports missing shutdown evidence as FAIL before forcibly cleaning up only its own child. A timeout is not reported as successful graceful shutdown.
+
+D-04 foundation bounds are explicit in architecture.md. D-05 adopts a design target of zero loss of acknowledged future durable financial intents via majority/journaled MongoDB acknowledgement and replay/reconciliation; this is not implemented or demonstrated in Phase 2. Local startup readiness budget in the harness is 15 seconds; no production RTO is proven. Snapshot schedules, restore testing, HA failover, record-class RPO and production RTO remain Phase 16 gates. A single local replica node and persistent volume cannot establish disaster recovery guarantees.
+
+D-06 defines the measured scope as one developer tenant-free environment, 32 bounded concurrent requests, 180 fixture candles and selected viewports. Admission rejection and request deadlines are tested; this is not SaaS tenant capacity evidence. Load/soak duration, production error budgets, peak universe coverage and p95/p99 targets must be resolved before production readiness. D-07 on-call/alerting ownership is not implemented here.
+
+No order intent is acknowledged, no financial record can be lost here, and no graceful service stop means that a remote position was closed. Future protection/reconciliation and outage limitations remain the Phase 1 trading invariants.

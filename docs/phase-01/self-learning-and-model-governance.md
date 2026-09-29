@@ -1,0 +1,13 @@
+# Self-learning and model governance
+
+Canonical obligations: QNT-FR-0022–0023, 0038–0047. Controlled learning means collecting evidence, offline training and audited promotion. It does not mean changing live weights after a loss.
+
+Lifecycle: immutable pre-outcome forecast -> matured label under pinned rule -> quality/provenance checks -> shared-event deduplication -> training-eligible dataset snapshot -> sufficient-new-evidence and/or drift trigger -> offline candidate -> time-separated evaluation against production/simple baselines -> independent final holdout -> paper/shadow and risk gates -> reviewer-authorized promotion -> monitored rollback capability.
+
+Successful, failed and untraded forecasts all enter eligible evaluation cohorts. One market forecast consumed by 100 users provides one shared forecasting observation, not 100 independent samples. User-specific fills measure execution behavior separately. User feedback is quarantined until validated; private tenant data use requires permitted-purpose provenance and D-12 policy. Shared validated models do not share account state, risk settings or private execution history.
+
+Labels use only matured horizons. Split data chronologically, purge overlapping label windows across split boundaries and fit transforms on fitting data only. Keep final holdouts inaccessible to repeated tuning; access is audited, and contamination invalidates results and requires a replacement future holdout. Evaluate delisting/survivorship, scanner-selection bias, regime/symbol coverage and cost stress. D-09 sets sample sufficiency, calibration bins/metrics, confidence intervals, net-performance and drawdown criteria before tuning. An unavailable approved production model uses the registered baseline as comparator, not a fictitious incumbent.
+
+Direction accuracy, probability calibration and expected-movement error are separate from execution slippage, data faults, cost forecasts and hard-risk compliance. A correct direction can lose net of costs; a profitable risk violation is still a bad decision. Attribution gives supported diagnostics and uncertainty, not unproven exact causes. One failed 70% event is compatible with probabilistic prediction and cannot by itself authorize model replacement.
+
+Promotion requires immutable model, feature, data and configuration versions with hashes, evaluation cohorts, all gate evidence and independent reviewer identity. Candidate headline returns cannot override failed drawdown/calibration or leakage checks. Rollback restores a compatible approved bundle; if no suitable bundle exists, remain flat/research-only. Models cannot change hard risk ceilings. Research and explanation jobs have no live-order credentials or authority.

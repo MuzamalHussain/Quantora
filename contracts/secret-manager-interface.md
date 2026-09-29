@@ -1,0 +1,7 @@
+# Phase 3 custody interface (design only)
+
+Provider secrets enter only through an authenticated tenant owner's Settings > Integrations flow. The API will resolve tenant/account/environment, authorize add/test/replace/revoke/remove, and call a server-side custody service. Local bootstrap variables are not a substitute for this product flow.
+
+Proposed operations: encrypt(secret bytes, tenant/account/environment/provider/key-version authenticated context) -> ciphertext + algorithm + wrapping-key-reference; decrypt(ciphertext, same authenticated context) -> short-lived backend-only bytes; rotate wrapping-key reference with audit evidence; revoke/deactivate credential usage without discarding unresolved exposure obligations. Use authenticated encryption and envelope keys; exact cryptographic provider/algorithm choice requires Phase 3 implementation/security review. Root key material stays in external server secret management, never the encrypted-credential MongoDB collection. Root-key references may be bootstrap configuration; root key bytes are not.
+
+Public API output is the canonical CREDENTIAL_METADATA envelope only. There is no secret field, plaintext getter or implemented encryption endpoint. Metadata labels must never be populated from secret bytes. Permission tests, redaction, key-manager outage behavior, audit access, rotation and active-position handover are required before implementation can be called complete. No real key is requested for the foundation.

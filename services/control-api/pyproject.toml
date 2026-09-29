@@ -1,0 +1,23 @@
+[project]
+name = "quantora-control-api"
+version = "0.2.0"
+requires-python = ">=3.12,<3.13"
+description = "Local-only Quantora foundation. No trading authority."
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+files = ["quantora_api"]
+
+[[tool.mypy.overrides]]
+module = ["jsonschema.*"]
+ignore_missing_imports = true

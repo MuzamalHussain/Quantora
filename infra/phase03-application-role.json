@@ -1,0 +1,11 @@
+{
+  "role": "quantoraApplication",
+  "description": "Provision under an authenticated MongoDB deployment before nonlocal use. Replace database placeholder. No audit update/remove, migration, drop or collMod privileges.",
+  "database": "quantora_app",
+  "mutable_collections": ["users", "tenants", "sessions", "tokens", "settings", "credentials", "idempotency"],
+  "mutable_actions": ["find", "insert", "update", "remove"],
+  "audit_actions": ["find", "insert"],
+  "migrations_actions": ["find"],
+  "future_trading_actions": [],
+  "note": "The existing loopback development server has authentication disabled. This definition does not claim enforcement on that server. Migration/rotation/backup tooling requires separate operator privileges."
+}

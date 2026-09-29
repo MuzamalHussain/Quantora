@@ -1,0 +1,24 @@
+# Data and integration contracts
+
+QNT-FR-0001–0005, 0022–0024, 0038–0039 and 0049–0050 define obligations. Internal contracts below are proposed architecture inputs; actual provider adapters and numerical parameters are resolved through D-02/D-03/D-10/D-11.
+
+| Record | Required identity/content | Invalid/missing behavior |
+|---|---|---|
+| Instrument metadata | venue, symbol, contract/margin type, status, effective time, quantity/price/notional filters, metadata version | Revoke execution eligibility; preserve historical versions |
+| Market observation | venue/symbol, event time, receive time, sequence/source ID, price/depth/volume, quality, schema/provenance | Gap/clock-skew/staleness invalidates dependent feature until resynchronized |
+| Feature manifest | immutable dataset ID, transform version, event-time cutoff, required/optional inputs and per-horizon freshness budgets | No unsupported imputation or future information |
+| Forecast | forecast ID, market-event key, decision time, horizon end, probabilities, movement/uncertainty units, model/feature/data/config versions, price/label rule | Persist before outcome; invalid distribution -> abstain |
+| Decision | tenant/environment/account/session/epoch, forecast reference, risk snapshot/reservations, action/quantity, cost model and reason codes | No executable authority without validated deterministic risk |
+| Order intent | durable intent/client ID, authorization, mode, side/type/qty, constraint/config version, state and timestamps | Unknown response requires reconciliation |
+| Fill/financial event | venue account/environment transaction identity, order link, event/receive time, quantity/price, fee asset/conversion, funding, attribution | Deduplicate and append corrections; unresolved conversion blocks definitive net report |
+| Model artifact | immutable hash, training/evaluation manifests, label/feature versions, gate evidence, approvals and rollback target | No unregistered artifact in production |
+
+Required for execution: current contract rules/status, quote/mark inputs for risk/valuation, approved features/history, cost estimates, risk configuration, account state/margin and reconciled order state. Book depth is required if the approved execution/cost model depends on it. Volume/candles are required for scanner/features that declare them. Funding inputs are required when material to the cost horizon. Optional macro/news/sentiment may be omitted only under an evaluated variant; they do not get a silent zero value. Public market ingestion does not request user keys.
+
+Proposed label contract: UTC completed-bar decision time t; horizon h measured in elapsed time (candidate 5m/15m/1h/4h pending D-03). P0 is the finalized close at t, Ph the finalized close at t+h under the same source/price rule. r=Ph/P0-1. A versioned nonnegative theta(h), fixed at prediction time without future data, gives UP if r>theta, DOWN if r<-theta and RANGE otherwise. Exact boundaries are RANGE. A late/missing horizon bar is unlabelled until the documented maturity/watermark rule resolves it; never substitute the next convenient price. Future-data revisions create a new label/dataset version rather than editing original evidence silently. Outcome label is gross directional movement; net edge subtracts costs separately. Probabilities require finite values in [0,1] and a manifest-declared normalization tolerance.
+
+Forecast horizon is not compute latency. A 1h prediction can be produced with separately measured ingest/inference/dispatch latency; it does not promise a trade once per hour or a subsecond response. Freshness manifests track event age, receive age, clock skew, sequence gaps and completed-bar availability per input/horizon. Age equal to the declared maximum is accepted only if other validity checks pass; future timestamps beyond skew tolerance are invalid. Clock anomalies cannot make stale data appear fresh.
+
+Replay retains delisted instruments, listing dates and what was known at the time. Missing historical order books, latency and queue position limit fill claims. For OHLC bars crossing both stop/target, use a declared conservative ordering or interval of outcomes; do not select favorable paths. Fees/funding and liquidity regimes need sensitivity analyses. Shared market observations can be deduplicated across tenants; private account events cannot be pooled without permitted-use provenance.
+
+Official-source observations are in sources.md. Endpoint paths shown there are documentation observations only, not adapter commitments. Public, testnet/demo and live endpoints must be verified separately, including signing, permissions, account modes, reduce-only/protective orders, order-stream schemas, request/connection limits, reconnect and lookup behavior. No fixed current fee, rate-limit budget, supported region or protective-order guarantee is assumed. The order-stream page did not supply a usable schema; D-10 blocks reliance on it.

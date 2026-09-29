@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "phase": 4,
+  "status": "PASS",
+  "verified_at_utc": "2026-09-28T13:06:49Z",
+  "gate_run": "docs/phase-04/evidence/20260928T130231Z/gate.json",
+  "trading_enabled": false,
+  "private_credentials_used": false,
+  "requirement_ids": ["QNT-FR-0002", "QNT-FR-0011", "QNT-FR-0013", "QNT-FR-0014", "QNT-FR-0022", "QNT-FR-0023", "QNT-FR-0024", "QNT-FR-0038", "QNT-FR-0039", "QNT-FR-0047", "QNT-FR-0049", "QNT-FR-0050", "QNT-NFR-0001", "QNT-NFR-0002", "QNT-NFR-0003", "QNT-NFR-0004", "QNT-NFR-0005", "QNT-NFR-0006", "QNT-NFR-0007", "QNT-INV-0009", "QNT-INV-0012", "QNT-INV-0013", "QNT-INV-0014", "QNT-INV-0015"],
+  "artifacts": ["services/trading-core/src/market.rs", "services/trading-core/src/bin/market_processor.rs", "services/control-api/quantora_api/market.py", "apps/web/src/MarketWorkspace.tsx", "tests/browser/market.spec.ts", "scripts/phase04_live_smoke.py", "scripts/phase04-ws-smoke.mjs", "scripts/phase04-stream.mjs", "scripts/phase04_collector.py", "scripts/verify_phase04.py", "scripts/verify_phase04_browser.py"],
+  "checks": {"previous_phase": "PASS", "deterministic": "PASS", "integration": "PASS", "live_public_rest": "PASS", "live_public_websocket": "PASS", "live_collector": "PASS", "live_storage": "PASS", "live_chart_update": "PASS", "browser": "PASS", "documentation": "PASS"},
+  "mandatory_blockers": [],
+  "phase5_started": false
+}

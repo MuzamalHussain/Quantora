@@ -1,0 +1,874 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://quantora.invalid/contracts/foundation-v1.schema.json",
+  "title": "FoundationEnvelope",
+  "description": "Transport shape only. No order authority. UTC milliseconds; money and quantity use bounded decimal strings.",
+  "definitions": {
+    "ID": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "Decimal": {
+      "type": "string",
+      "pattern": "^-?(0|[1-9][0-9]{0,17})(\\.[0-9]{1,18})?$"
+    },
+    "Timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 8640000000000000
+    },
+    "Mode": {
+      "enum": [
+        "REPLAY",
+        "PAPER",
+        "TESTNET",
+        "SHADOW",
+        "LIVE"
+      ]
+    },
+    "Versions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{1,80}$"
+        },
+        "data": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{1,80}$"
+        },
+        "config": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{1,80}$"
+        },
+        "features": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._-]{1,80}$"
+        }
+      },
+      "required": [
+        "model",
+        "data",
+        "config",
+        "features"
+      ]
+    },
+    "Instrument": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "venue": {
+          "const": "BINANCE"
+        },
+        "symbol": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]{2,30}$"
+        },
+        "contract_type": {
+          "const": "PERPETUAL"
+        },
+        "margin_asset": {
+          "const": "USDT"
+        }
+      },
+      "required": [
+        "venue",
+        "symbol",
+        "contract_type",
+        "margin_asset"
+      ]
+    },
+    "Health": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "service": {
+          "enum": [
+            "control-api",
+            "trading-core"
+          ]
+        },
+        "status": {
+          "enum": [
+            "UP",
+            "READY",
+            "NOT_READY"
+          ]
+        },
+        "profile": {
+          "const": "FOUNDATION"
+        },
+        "trading_enabled": {
+          "const": false
+        },
+        "dependencies": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "core": {
+              "enum": [
+                "UP",
+                "DOWN",
+                "NOT_REQUIRED"
+              ]
+            },
+            "mongodb": {
+              "enum": [
+                "UP",
+                "DOWN",
+                "NOT_REQUIRED"
+              ]
+            },
+            "redis": {
+              "enum": [
+                "UP",
+                "DOWN",
+                "NOT_REQUIRED"
+              ]
+            }
+          },
+          "required": [
+            "core",
+            "mongodb",
+            "redis"
+          ]
+        }
+      },
+      "required": [
+        "service",
+        "status",
+        "profile",
+        "trading_enabled",
+        "dependencies"
+      ]
+    },
+    "Error": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "enum": [
+            "INVALID_REQUEST",
+            "NOT_FOUND",
+            "METHOD_NOT_ALLOWED",
+            "TOO_LARGE",
+            "TIMEOUT",
+            "OVERLOADED",
+            "INTERNAL",
+            "NOT_READY"
+          ]
+        },
+        "message": {
+          "enum": [
+            "Request rejected",
+            "Route is unavailable",
+            "Method is unavailable",
+            "Request exceeds limit",
+            "Request timed out",
+            "Service is busy",
+            "Internal failure",
+            "Dependencies unavailable"
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ]
+    },
+    "Forecast": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "instrument": {
+          "$ref": "#/definitions/Instrument"
+        },
+        "horizon_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 604800
+        },
+        "outcome_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "probabilities": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "up": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "down": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "range": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "up",
+            "down",
+            "range"
+          ]
+        },
+        "expected_return": {
+          "$ref": "#/definitions/Decimal"
+        },
+        "uncertainty": {
+          "$ref": "#/definitions/Decimal"
+        },
+        "versions": {
+          "$ref": "#/definitions/Versions"
+        }
+      },
+      "required": [
+        "instrument",
+        "horizon_seconds",
+        "outcome_at_ms",
+        "probabilities",
+        "expected_return",
+        "uncertainty",
+        "versions"
+      ]
+    },
+    "PositionIntent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intent_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "instrument": {
+          "$ref": "#/definitions/Instrument"
+        },
+        "action": {
+          "enum": [
+            "HOLD",
+            "REDUCE",
+            "TAKE_PROFIT",
+            "CLOSE",
+            "FLAT",
+            "NO_TRADE",
+            "REVERSE",
+            "OPEN"
+          ]
+        },
+        "quantity": {
+          "$ref": "#/definitions/Decimal"
+        },
+        "versions": {
+          "$ref": "#/definitions/Versions"
+        }
+      },
+      "required": [
+        "intent_id",
+        "instrument",
+        "action",
+        "quantity",
+        "versions"
+      ]
+    },
+    "ExecutionEvent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "intent_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "state": {
+          "enum": [
+            "INTENT_DURABLE",
+            "UNKNOWN",
+            "ACKNOWLEDGED",
+            "PARTIALLY_FILLED",
+            "FILLED",
+            "CANCELED",
+            "REJECTED"
+          ]
+        },
+        "quantity": {
+          "$ref": "#/definitions/Decimal"
+        },
+        "price": {
+          "$ref": "#/definitions/Decimal"
+        },
+        "versions": {
+          "$ref": "#/definitions/Versions"
+        }
+      },
+      "required": [
+        "intent_id",
+        "state",
+        "quantity",
+        "price",
+        "versions"
+      ]
+    },
+    "CredentialMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "credential_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "provider": {
+          "const": "BINANCE"
+        },
+        "status": {
+          "enum": [
+            "DISCONNECTED",
+            "UNVERIFIED",
+            "CONNECTED",
+            "REVOKED"
+          ]
+        },
+        "key_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "display_label": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9 _-]{1,40}$"
+        }
+      },
+      "required": [
+        "credential_id",
+        "provider",
+        "status",
+        "key_version",
+        "display_label"
+      ]
+    },
+    "Ping": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "message": {
+          "const": "PING"
+        }
+      },
+      "required": [
+        "message"
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "event_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "correlation_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "occurred_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "mode": {
+          "$ref": "#/definitions/Mode"
+        },
+        "tenant_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "account_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "FOUNDATION",
+                "FIXTURE"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{1,40}$"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        "event_type": {
+          "const": "HEALTH"
+        },
+        "payload": {
+          "$ref": "#/definitions/Health"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "correlation_id",
+        "occurred_at_ms",
+        "mode",
+        "source",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "event_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "correlation_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "occurred_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "mode": {
+          "$ref": "#/definitions/Mode"
+        },
+        "tenant_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "account_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "FOUNDATION",
+                "FIXTURE"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{1,40}$"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        "event_type": {
+          "const": "ERROR"
+        },
+        "payload": {
+          "$ref": "#/definitions/Error"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "correlation_id",
+        "occurred_at_ms",
+        "mode",
+        "source",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "event_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "correlation_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "occurred_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "mode": {
+          "$ref": "#/definitions/Mode"
+        },
+        "tenant_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "account_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "FOUNDATION",
+                "FIXTURE"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{1,40}$"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        "event_type": {
+          "const": "INSTRUMENT"
+        },
+        "payload": {
+          "$ref": "#/definitions/Instrument"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "correlation_id",
+        "occurred_at_ms",
+        "mode",
+        "source",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "event_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "correlation_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "occurred_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "mode": {
+          "$ref": "#/definitions/Mode"
+        },
+        "tenant_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "account_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "FOUNDATION",
+                "FIXTURE"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{1,40}$"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        "event_type": {
+          "const": "FORECAST"
+        },
+        "payload": {
+          "$ref": "#/definitions/Forecast"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "correlation_id",
+        "occurred_at_ms",
+        "mode",
+        "source",
+        "event_type",
+        "payload"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "event_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "correlation_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "occurred_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "mode": {
+          "$ref": "#/definitions/Mode"
+        },
+        "tenant_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "account_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "FOUNDATION",
+                "FIXTURE"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{1,40}$"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        "event_type": {
+          "const": "POSITION_INTENT"
+        },
+        "payload": {
+          "$ref": "#/definitions/PositionIntent"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "correlation_id",
+        "occurred_at_ms",
+        "mode",
+        "source",
+        "event_type",
+        "payload",
+        "tenant_id",
+        "account_id"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "event_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "correlation_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "occurred_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "mode": {
+          "$ref": "#/definitions/Mode"
+        },
+        "tenant_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "account_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "FOUNDATION",
+                "FIXTURE"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{1,40}$"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        "event_type": {
+          "const": "EXECUTION_EVENT"
+        },
+        "payload": {
+          "$ref": "#/definitions/ExecutionEvent"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "correlation_id",
+        "occurred_at_ms",
+        "mode",
+        "source",
+        "event_type",
+        "payload",
+        "tenant_id",
+        "account_id"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "event_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "correlation_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "occurred_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "mode": {
+          "$ref": "#/definitions/Mode"
+        },
+        "tenant_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "account_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "FOUNDATION",
+                "FIXTURE"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{1,40}$"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        "event_type": {
+          "const": "CREDENTIAL_METADATA"
+        },
+        "payload": {
+          "$ref": "#/definitions/CredentialMetadata"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "correlation_id",
+        "occurred_at_ms",
+        "mode",
+        "source",
+        "event_type",
+        "payload",
+        "tenant_id",
+        "account_id"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "event_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "correlation_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "occurred_at_ms": {
+          "$ref": "#/definitions/Timestamp"
+        },
+        "mode": {
+          "$ref": "#/definitions/Mode"
+        },
+        "tenant_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "account_id": {
+          "$ref": "#/definitions/ID"
+        },
+        "source": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "enum": [
+                "FOUNDATION",
+                "FIXTURE"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]{1,40}$"
+            }
+          },
+          "required": [
+            "kind",
+            "name"
+          ]
+        },
+        "event_type": {
+          "const": "PING"
+        },
+        "payload": {
+          "$ref": "#/definitions/Ping"
+        }
+      },
+      "required": [
+        "schema_version",
+        "event_id",
+        "correlation_id",
+        "occurred_at_ms",
+        "mode",
+        "source",
+        "event_type",
+        "payload"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Tenant isolation and roles
+
+Canonical authority: Phase 1 user-flows-and-permissions.md and QNT-FR-0010/0011. Minimal implemented model: one private tenant per registered owner; separate explicit PLATFORM_ADMIN bootstrap. Trader/viewer/reviewer/responder memberships and invitations have no creation or permission workflow in this phase. They are not silently equated to owner/admin. Public signup cannot select a role. No self-promotion or impersonation endpoint exists.
+
+The session resolves a user document and its tenant on the server. Repository credential lookup/list/summary and settings queries apply that tenant. Client tenant_id query fields are not used as authorization; unknown body fields fail validation. Export emits only the authenticated user's allowlisted profile and masked integration metadata. Private object updates/deletes include tenant scope; another tenant receives unavailable/404. Pagination is bounded to 100 local records; no arbitrary client Mongo query or aggregation pipeline is accepted.
+
+TENANT_OWNER may manage BINANCE TESTNET/LIVE metadata and encrypted secrets after local email verification. LIVE is a credential classification, never execution authority. PLATFORM_ADMIN manages only NEWS/MACRO PLATFORM credentials under its own private ownership; ordinary admin cannot read a tenant's credentials, impersonate users or decrypt stored values through HTTP. Provider names are classifications only and cannot become arbitrary fetch URLs. No destination connection tests exist.
+
+From services/control-api, `python -m quantora_api.manage bootstrap-admin` reads email and a confirmed password interactively with getpass. No defaults or password CLI flags exist. Existing email causes failure without role/password mutation. Database/schema migration must precede bootstrap. Only a trusted local operator with database access can run management tooling.
+
+Tests create two independent tenants and a separate admin, probe cross-tenant object GET/PUT/DELETE, list/filter/aggregation/export, attempted role selection and admin access. Future jobs, streams, invites and trading records still require their own authorization tests before release; existing foundations do not claim those unimplemented paths are verified.

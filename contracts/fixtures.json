@@ -1,0 +1,646 @@
+[
+  {
+    "name": "health",
+    "valid": true,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "HEALTH",
+      "payload": {
+        "service": "control-api",
+        "status": "READY",
+        "profile": "FOUNDATION",
+        "trading_enabled": false,
+        "dependencies": {
+          "core": "UP",
+          "mongodb": "UP",
+          "redis": "UP"
+        }
+      }
+    }
+  },
+  {
+    "name": "error",
+    "valid": true,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "ERROR",
+      "payload": {
+        "code": "INVALID_REQUEST",
+        "message": "Request rejected"
+      }
+    }
+  },
+  {
+    "name": "instrument",
+    "valid": true,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "INSTRUMENT",
+      "payload": {
+        "venue": "BINANCE",
+        "symbol": "FIXTUREUSDT",
+        "contract_type": "PERPETUAL",
+        "margin_asset": "USDT"
+      }
+    }
+  },
+  {
+    "name": "forecast",
+    "valid": true,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "FORECAST",
+      "payload": {
+        "instrument": {
+          "venue": "BINANCE",
+          "symbol": "FIXTUREUSDT",
+          "contract_type": "PERPETUAL",
+          "margin_asset": "USDT"
+        },
+        "horizon_seconds": 300,
+        "outcome_at_ms": 300000,
+        "probabilities": {
+          "up": 0.5,
+          "down": 0.3,
+          "range": 0.2
+        },
+        "expected_return": "0.002",
+        "uncertainty": "0.01",
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      }
+    }
+  },
+  {
+    "name": "position_intent",
+    "valid": true,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "POSITION_INTENT",
+      "payload": {
+        "intent_id": "00000000-0000-4000-8000-000000000001",
+        "instrument": {
+          "venue": "BINANCE",
+          "symbol": "FIXTUREUSDT",
+          "contract_type": "PERPETUAL",
+          "margin_asset": "USDT"
+        },
+        "action": "NO_TRADE",
+        "quantity": "0",
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      },
+      "tenant_id": "00000000-0000-4000-8000-000000000001",
+      "account_id": "00000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "execution_event",
+    "valid": true,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "EXECUTION_EVENT",
+      "payload": {
+        "intent_id": "00000000-0000-4000-8000-000000000001",
+        "state": "UNKNOWN",
+        "quantity": "0",
+        "price": "0",
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      },
+      "tenant_id": "00000000-0000-4000-8000-000000000001",
+      "account_id": "00000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "credential_metadata",
+    "valid": true,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "CREDENTIAL_METADATA",
+      "payload": {
+        "credential_id": "00000000-0000-4000-8000-000000000001",
+        "provider": "BINANCE",
+        "status": "DISCONNECTED",
+        "key_version": 1,
+        "display_label": "Fixture integration"
+      },
+      "tenant_id": "00000000-0000-4000-8000-000000000001",
+      "account_id": "00000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "ping",
+    "valid": true,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "PING",
+      "payload": {
+        "message": "PING"
+      }
+    }
+  },
+  {
+    "name": "invalid-mode",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "AUTO",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "HEALTH",
+      "payload": {
+        "service": "control-api",
+        "status": "READY",
+        "profile": "FOUNDATION",
+        "trading_enabled": false,
+        "dependencies": {
+          "core": "UP",
+          "mongodb": "UP",
+          "redis": "UP"
+        }
+      }
+    }
+  },
+  {
+    "name": "live-enabled-health",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "HEALTH",
+      "payload": {
+        "service": "control-api",
+        "status": "READY",
+        "profile": "FOUNDATION",
+        "trading_enabled": true,
+        "dependencies": {
+          "core": "UP",
+          "mongodb": "UP",
+          "redis": "UP"
+        }
+      }
+    }
+  },
+  {
+    "name": "nonfinite-decimal",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "FORECAST",
+      "payload": {
+        "instrument": {
+          "venue": "BINANCE",
+          "symbol": "FIXTUREUSDT",
+          "contract_type": "PERPETUAL",
+          "margin_asset": "USDT"
+        },
+        "horizon_seconds": 300,
+        "outcome_at_ms": 300000,
+        "probabilities": {
+          "up": 0.5,
+          "down": 0.3,
+          "range": 0.2
+        },
+        "expected_return": "NaN",
+        "uncertainty": "0.01",
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      }
+    }
+  },
+  {
+    "name": "numeric-quantity",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "POSITION_INTENT",
+      "payload": {
+        "intent_id": "00000000-0000-4000-8000-000000000001",
+        "instrument": {
+          "venue": "BINANCE",
+          "symbol": "FIXTUREUSDT",
+          "contract_type": "PERPETUAL",
+          "margin_asset": "USDT"
+        },
+        "action": "NO_TRADE",
+        "quantity": 0.1,
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      },
+      "tenant_id": "00000000-0000-4000-8000-000000000001",
+      "account_id": "00000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "future-version",
+    "valid": false,
+    "value": {
+      "schema_version": "2.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "HEALTH",
+      "payload": {
+        "service": "control-api",
+        "status": "READY",
+        "profile": "FOUNDATION",
+        "trading_enabled": false,
+        "dependencies": {
+          "core": "UP",
+          "mongodb": "UP",
+          "redis": "UP"
+        }
+      }
+    }
+  },
+  {
+    "name": "secret-field",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "CREDENTIAL_METADATA",
+      "payload": {
+        "credential_id": "00000000-0000-4000-8000-000000000001",
+        "provider": "BINANCE",
+        "status": "DISCONNECTED",
+        "key_version": 1,
+        "display_label": "Fixture integration",
+        "api_secret": "SYNTHETIC_SENTINEL"
+      },
+      "tenant_id": "00000000-0000-4000-8000-000000000001",
+      "account_id": "00000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "fractional-timestamp",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 1.5,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "HEALTH",
+      "payload": {
+        "service": "control-api",
+        "status": "READY",
+        "profile": "FOUNDATION",
+        "trading_enabled": false,
+        "dependencies": {
+          "core": "UP",
+          "mongodb": "UP",
+          "redis": "UP"
+        }
+      }
+    }
+  },
+  {
+    "name": "invalid-uuid",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "bad",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "HEALTH",
+      "payload": {
+        "service": "control-api",
+        "status": "READY",
+        "profile": "FOUNDATION",
+        "trading_enabled": false,
+        "dependencies": {
+          "core": "UP",
+          "mongodb": "UP",
+          "redis": "UP"
+        }
+      }
+    }
+  },
+  {
+    "name": "probability-range",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "FORECAST",
+      "payload": {
+        "instrument": {
+          "venue": "BINANCE",
+          "symbol": "FIXTUREUSDT",
+          "contract_type": "PERPETUAL",
+          "margin_asset": "USDT"
+        },
+        "horizon_seconds": 300,
+        "outcome_at_ms": 300000,
+        "probabilities": {
+          "up": 2,
+          "down": 0.3,
+          "range": 0.2
+        },
+        "expected_return": "0.002",
+        "uncertainty": "0.01",
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      }
+    }
+  },
+  {
+    "name": "wrong-contract",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "INSTRUMENT",
+      "payload": {
+        "venue": "BINANCE",
+        "symbol": "FIXTUREUSDT",
+        "contract_type": "SPOT",
+        "margin_asset": "USDT"
+      }
+    }
+  },
+  {
+    "name": "unknown-field",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "HEALTH",
+      "payload": {
+        "service": "control-api",
+        "status": "READY",
+        "profile": "FOUNDATION",
+        "trading_enabled": false,
+        "dependencies": {
+          "core": "UP",
+          "mongodb": "UP",
+          "redis": "UP"
+        }
+      },
+      "authorization": "secret"
+    }
+  },
+  {
+    "name": "exponent-decimal",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "POSITION_INTENT",
+      "payload": {
+        "intent_id": "00000000-0000-4000-8000-000000000001",
+        "instrument": {
+          "venue": "BINANCE",
+          "symbol": "FIXTUREUSDT",
+          "contract_type": "PERPETUAL",
+          "margin_asset": "USDT"
+        },
+        "action": "NO_TRADE",
+        "quantity": "1e5",
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      },
+      "tenant_id": "00000000-0000-4000-8000-000000000001",
+      "account_id": "00000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "missing-tenant_id",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "POSITION_INTENT",
+      "payload": {
+        "intent_id": "00000000-0000-4000-8000-000000000001",
+        "instrument": {
+          "venue": "BINANCE",
+          "symbol": "FIXTUREUSDT",
+          "contract_type": "PERPETUAL",
+          "margin_asset": "USDT"
+        },
+        "action": "NO_TRADE",
+        "quantity": "0",
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      },
+      "account_id": "00000000-0000-4000-8000-000000000001"
+    }
+  },
+  {
+    "name": "missing-account_id",
+    "valid": false,
+    "value": {
+      "schema_version": "1.0.0",
+      "event_id": "00000000-0000-4000-8000-000000000001",
+      "correlation_id": "00000000-0000-4000-8000-000000000001",
+      "occurred_at_ms": 0,
+      "mode": "PAPER",
+      "source": {
+        "kind": "FIXTURE",
+        "name": "contract-fixture"
+      },
+      "event_type": "POSITION_INTENT",
+      "payload": {
+        "intent_id": "00000000-0000-4000-8000-000000000001",
+        "instrument": {
+          "venue": "BINANCE",
+          "symbol": "FIXTUREUSDT",
+          "contract_type": "PERPETUAL",
+          "margin_asset": "USDT"
+        },
+        "action": "NO_TRADE",
+        "quantity": "0",
+        "versions": {
+          "model": "fixture",
+          "data": "fixture",
+          "config": "foundation",
+          "features": "fixture"
+        }
+      },
+      "tenant_id": "00000000-0000-4000-8000-000000000001"
+    }
+  }
+]

@@ -1,0 +1,34 @@
+name: quantora-foundation
+services:
+  mongodb:
+    image: mongo:8.0@sha256:6c108efd306c66a7eb58e0b4042c2fcffb4a4980dac111039c59fd714db6a69b
+    command: ["mongod", "--replSet", "quantora-rs", "--bind_ip_all"]
+    ports: ["127.0.0.1:27117:27017"]
+    volumes: ["mongo-data:/data/db"]
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "quit(db.adminCommand({ping:1}).ok ? 0 : 1)"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    stop_grace_period: 20s
+  mongo-init:
+    image: mongo:8.0@sha256:6c108efd306c66a7eb58e0b4042c2fcffb4a4980dac111039c59fd714db6a69b
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    entrypoint: ["mongosh", "--host", "mongodb:27017", "--quiet", "/init/init-replica.js"]
+    volumes: ["./init-replica.js:/init/init-replica.js:ro"]
+    restart: "no"
+  redis:
+    image: redis:8@sha256:298e5b3bc566bade82f46ad5511777a4a07a294097ce16ada2f6a42be5239df5
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "64mb", "--maxmemory-policy", "allkeys-lru"]
+    ports: ["127.0.0.1:6381:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    stop_grace_period: 10s
+volumes:
+  mongo-data:
+    name: quantora_phase02_mongo_data

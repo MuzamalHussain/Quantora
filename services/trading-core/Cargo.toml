@@ -1,0 +1,15 @@
+[package]
+name = "quantora-core"
+version = "0.2.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+axum = "0.8"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal", "net", "sync", "time"] }
+serde_json = "1"
+jsonschema = { version = "0.33", default-features = false }
+uuid = { version = "1", features = ["v4"] }
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }

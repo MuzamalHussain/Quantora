@@ -1,0 +1,13 @@
+{
+  "verified_at": "2026-09-15",
+  "mongo": {
+    "digest": "sha256:6c108efd306c66a7eb58e0b4042c2fcffb4a4980dac111039c59fd714db6a69b",
+    "source": "https://hub.docker.com/v2/repositories/library/mongo/tags/8.0",
+    "tag": "8.0"
+  },
+  "redis": {
+    "digest": "sha256:298e5b3bc566bade82f46ad5511777a4a07a294097ce16ada2f6a42be5239df5",
+    "source": "https://hub.docker.com/v2/repositories/library/redis/tags/8",
+    "tag": "8"
+  }
+}

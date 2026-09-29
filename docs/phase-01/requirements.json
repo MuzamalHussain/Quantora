@@ -1,0 +1,2052 @@
+{
+  "schema_version": 1,
+  "project": "QUANTORA",
+  "baseline_date": "2026-09-13",
+  "phase_01_status": "PASS",
+  "scope_note": "Phase 1 documentation/registry gate only. No application, trading test, profitability or stakeholder approval is claimed.",
+  "requirement_statuses": [
+    "SPECIFIED",
+    "PROPOSED"
+  ],
+  "phases": [
+    {
+      "phase": 1,
+      "name": "Requirements and scope",
+      "status": "PASS",
+      "prerequisite_phases": []
+    },
+    {
+      "phase": 2,
+      "name": "Architecture and foundation",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        1
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "SaaS and data foundation",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        2
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "Binance market ingestion",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        2
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "Historical data and replay",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        4
+      ]
+    },
+    {
+      "phase": 6,
+      "name": "Features and market scanner",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        4
+      ]
+    },
+    {
+      "phase": 7,
+      "name": "Forecasting and calibration",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        5,
+        6
+      ]
+    },
+    {
+      "phase": 8,
+      "name": "Costs and execution simulator",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        5
+      ]
+    },
+    {
+      "phase": 9,
+      "name": "Risk and position decisions",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        2,
+        6,
+        8
+      ]
+    },
+    {
+      "phase": 10,
+      "name": "Integrated strategy validation",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "phase": 11,
+      "name": "User demo and trading workspace",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        3,
+        4,
+        8,
+        9
+      ]
+    },
+    {
+      "phase": 12,
+      "name": "Binance execution integration",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        3,
+        4,
+        9
+      ]
+    },
+    {
+      "phase": 13,
+      "name": "Forward and shadow validation",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        10,
+        11,
+        12
+      ]
+    },
+    {
+      "phase": 14,
+      "name": "Controlled self-learning",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        7,
+        10,
+        13
+      ]
+    },
+    {
+      "phase": 15,
+      "name": "SaaS product completion",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        3,
+        11
+      ]
+    },
+    {
+      "phase": 16,
+      "name": "Security and operational readiness",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        3,
+        9,
+        12,
+        15
+      ]
+    },
+    {
+      "phase": 17,
+      "name": "Controlled live pilot",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        10,
+        13,
+        14,
+        16
+      ]
+    },
+    {
+      "phase": 18,
+      "name": "Production and gradual expansion",
+      "status": "NOT_STARTED",
+      "prerequisite_phases": [
+        17
+      ]
+    }
+  ],
+  "release_gates": [
+    "ENGINEERING",
+    "MODEL_SUITABILITY",
+    "USER_DEMO",
+    "LIVE_CAPITAL"
+  ],
+  "decisions": [
+    {
+      "id": "D-01",
+      "title": "Chart engine, license and tool scope",
+      "status": "DEFERRED",
+      "owner": "Frontend lead",
+      "resolution_phase": 2,
+      "consequence": "Blocks chart-library commitment/distribution; does not block architecture planning.",
+      "proposal": "Bounded indicator/drawing inventory in QNT-FR-0015; engine unspecified.",
+      "measurement_or_resolution_method": "Compare maintained engines, official licenses and feature prototypes; record redistribution terms and approve inventory.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-02",
+      "title": "Runtime and durable-state design",
+      "status": "DEFERRED",
+      "owner": "Systems architect",
+      "resolution_phase": 2,
+      "consequence": "Blocks implementation foundation choices and exchange dispatch.",
+      "proposal": "Rust core, Python research/APIs, React/TypeScript, optional Redis, Parquet/object storage and Linux containers; MongoDB is confirmed.",
+      "measurement_or_resolution_method": "ADR for deployment, durability/write concerns, indexes, decimal representation, fenced ownership and outbox/reconciliation; no second required database.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-03",
+      "title": "Freshness, horizons and label parameters",
+      "status": "DEFERRED",
+      "owner": "Research lead + trading systems lead",
+      "resolution_phase": 4,
+      "consequence": "Blocks enabled decision horizons until budget and feature manifests are set; label parameters must be frozen before Phase 7 fitting.",
+      "proposal": "Candidate horizons 5m, 15m, 1h, 4h; entry on completed bars with live execution quotes; inclusive age limit.",
+      "measurement_or_resolution_method": "Measure event/receive delays and gap rates per feed across quiet/busy periods; choose age/skew thresholds per input/horizon, theta and maturity price rules before use.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-04",
+      "title": "Latency budgets and timing instrumentation",
+      "status": "DEFERRED",
+      "owner": "Systems architect",
+      "resolution_phase": 2,
+      "consequence": "Blocks claimed latency SLOs and latency-sensitive strategy admission.",
+      "proposal": "No proven latency numbers; human horizon differs from processing time.",
+      "measurement_or_resolution_method": "Design traces in Phase 2; benchmark warm/cold and overloaded paths by Phase 10 and freeze segment budgets before readiness evaluation.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-05",
+      "title": "RTO/RPO by record class",
+      "status": "DEFERRED",
+      "owner": "Operations lead",
+      "resolution_phase": 2,
+      "consequence": "Blocks recovery design signoff; measured compliance required in Phase 16 before live.",
+      "proposal": "Proposed zero loss of acknowledged durable financial intents; caches can rebuild; exchange outages excluded from guaranteed closure time.",
+      "measurement_or_resolution_method": "Select durability/backup topology, declare RTO and RPO for intents/fills/config/history; fault injection and restore drill measure loss and elapsed recovery.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-06",
+      "title": "Reliability and capacity envelope",
+      "status": "DEFERRED",
+      "owner": "Product owner + operations lead",
+      "resolution_phase": 2,
+      "consequence": "Blocks capacity promises; Phase 16 load evidence required for live.",
+      "proposal": "No tenant or throughput claim yet.",
+      "measurement_or_resolution_method": "Approve target tenants, symbols, concurrent sessions/orders and workload duration; define availability/error budgets and run soak/overload tests.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-07",
+      "title": "Alert severity and response budgets",
+      "status": "DEFERRED",
+      "owner": "Operations lead",
+      "resolution_phase": 16,
+      "consequence": "Blocks operational readiness/live.",
+      "proposal": "Protection gap, credential loss with exposure and unknown order status are critical.",
+      "measurement_or_resolution_method": "Assign on-call coverage; set detection/notification/acknowledgement objectives and measure drills, including unreachable owner escalation.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-08",
+      "title": "Risk ceilings and account ownership policy",
+      "status": "DEFERRED",
+      "owner": "Risk owner + product owner",
+      "resolution_phase": 9,
+      "consequence": "Blocks enabled trading decisions even in paper until fixture-safe configuration; blocks live until approved.",
+      "proposal": "One bot writer per account/environment; dedicated account, one-way isolated positions initially; external trading freezes entries.",
+      "measurement_or_resolution_method": "Stress correlated shocks, gaps, fees and concurrency; approve numeric risk/leverage/stop buffer/cooldown limits and permitted account modes without modifying user exchange settings automatically.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-09",
+      "title": "Forecast, liquidity and promotion thresholds",
+      "status": "DEFERRED",
+      "owner": "Research lead + independent risk reviewer",
+      "resolution_phase": 7,
+      "consequence": "Blocks model suitability/live claims; research-only demo remains possible with configured safe risk.",
+      "proposal": "Simple baselines before complex models; cost-aware net-edge threshold and prespecified calibration/drawdown constraints.",
+      "measurement_or_resolution_method": "Pre-register sample counts, horizon/symbol coverage, baselines, cost stress, confidence intervals, evidence/drift triggers; final paper/shadow duration and promotion criteria frozen before Phase 13.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-10",
+      "title": "Exchange capabilities and test environment",
+      "status": "DEFERRED",
+      "owner": "Exchange integration lead",
+      "resolution_phase": 2,
+      "consequence": "Blocks reliance on unverified endpoints/modes; Phase 12 compatibility proof required before dispatch eligibility.",
+      "proposal": "Verify testnet/demo endpoints, account modes, protective/algo orders, user streams, signing, limits and regional/provider availability.",
+      "measurement_or_resolution_method": "Use official current documentation and dated fixtures; user-stream page did not expose its schema during Phase 1 verification. Recheck all assumed behavior before implementation.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-11",
+      "title": "Provider fees, history and usage rights",
+      "status": "DEFERRED",
+      "owner": "Data owner",
+      "resolution_phase": 5,
+      "consequence": "Blocks performance claims using unknown costs/coverage or unlicensed data.",
+      "proposal": "Account-specific commission/funding assumptions; optional news/macro only with approved provenance.",
+      "measurement_or_resolution_method": "Verify official provider availability, rate limits, retention and redistribution/training rights; quantify missing depth/history and model cost sensitivity.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-12",
+      "title": "Retention and lawful-use policy",
+      "status": "DEFERRED",
+      "owner": "Privacy/security owner + product owner",
+      "resolution_phase": 3,
+      "consequence": "Blocks production tenant data collection/export/deletion promises until durations and authority are decided.",
+      "proposal": "Separate erasable profile/preferences from restricted financial/audit history; tenant data is not shared training data by default.",
+      "measurement_or_resolution_method": "Define operating jurisdictions, retention durations, holds, consent and trained-artifact deletion handling with appropriate review; no legal compliance claim in Phase 1.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-13",
+      "title": "Default session behavior and accounting conventions",
+      "status": "DEFERRED",
+      "owner": "Product owner + risk owner",
+      "resolution_phase": 9,
+      "consequence": "Blocks production session configuration defaults; architecture can support the explicit proposed contracts now.",
+      "proposal": "Pause retains protection; stop/target/deadline flatten; close-first reversal; target net of estimated close costs; no pause clock extension.",
+      "measurement_or_resolution_method": "Approve state/accounting tables and deterministic fixtures before Phase 9 release; user target remains a stopping condition.",
+      "approval": "NOT_APPROVED"
+    },
+    {
+      "id": "D-14",
+      "title": "UI accessibility target",
+      "status": "DEFERRED",
+      "owner": "Product owner + frontend lead",
+      "resolution_phase": 2,
+      "consequence": "Blocks final UI acceptance target signoff.",
+      "proposal": "Contrast and viewport targets in QNT-NFR-0008 are proposed product requirements, not a certified standards claim.",
+      "measurement_or_resolution_method": "Review with keyboard/mobile prototypes and approve acceptance thresholds.",
+      "approval": "NOT_APPROVED"
+    }
+  ],
+  "requirements": [
+    {
+      "id": "QNT-FR-0001",
+      "title": "Dynamic futures universe",
+      "normative_requirement": "The platform shall discover Binance USDT-margined perpetual contracts dynamically from futures metadata; spot listings and other venues shall not qualify.",
+      "category": "market",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 4,
+      "verification_phases": [
+        4
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0001"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0002",
+      "title": "Separate scan and execution eligibility",
+      "normative_requirement": "The scanner shall retain separate scan/execution eligibility and reason codes; execution shall require active status, approved liquidity/spread/coverage thresholds, valid model, allowed symbol and risk approval.",
+      "category": "market",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 6,
+      "verification_phases": [
+        6
+      ],
+      "dependency_ids": [
+        "QNT-FR-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0002"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0003",
+      "title": "Contract lifecycle changes",
+      "normative_requirement": "New listings shall remain execution-ineligible until coverage and validation pass; suspension, delisting and filter changes shall invalidate cached eligibility and invoke exposure recovery without assuming closure is possible.",
+      "category": "market",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 4,
+      "verification_phases": [
+        4
+      ],
+      "dependency_ids": [
+        "QNT-FR-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0003"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0004",
+      "title": "Required and optional input manifests",
+      "normative_requirement": "Every feature/model shall declare required inputs, optional inputs, freshness limits and approved fallback variants; missing critical inputs shall block increased risk, and missing optional news/macro data shall use only an evaluated fallback or abstain.",
+      "category": "data",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 4,
+      "verification_phases": [
+        4
+      ],
+      "dependency_ids": [
+        "QNT-FR-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0004"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0005",
+      "title": "Public market data access",
+      "normative_requirement": "Public market feeds and the built-in paper account shall operate without user Binance credentials; platform-owned optional provider keys shall be administrator managed.",
+      "category": "data",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 4,
+      "verification_phases": [
+        4
+      ],
+      "dependency_ids": [
+        "QNT-FR-0004"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0005"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0006",
+      "title": "Integration credential lifecycle",
+      "normative_requirement": "Settings > Integrations shall support authorized add, safe connection test, replace, revoke/disconnect and remove for tenant/environment-scoped Binance credentials; tests shall not place orders.",
+      "category": "security",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 3,
+      "verification_phases": [
+        3
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0006"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0007",
+      "title": "Secret storage boundary",
+      "normative_requirement": "Secrets shall be encrypted server-side with root keys in separate server secret management; stored plaintext shall never be returned to browsers or enter logs, analytics, code or frontend bundles.",
+      "category": "security",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 3,
+      "verification_phases": [
+        3
+      ],
+      "dependency_ids": [
+        "QNT-FR-0006"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0007"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0008",
+      "title": "Credential change with exposure",
+      "normative_requirement": "Replacing credentials during exposure shall freeze entries, validate the replacement account/environment identity, reconcile and transfer protection before switching; expired/revoked credentials shall enter recovery and alert; removal shall not erase exposure obligations.",
+      "category": "execution",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [
+        "QNT-FR-0006",
+        "QNT-INV-0001",
+        "QNT-INV-0009",
+        "QNT-INV-0013"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0008"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0009",
+      "title": "Supported integration destinations",
+      "normative_requirement": "Provider configuration shall accept supported provider identifiers and server-owned endpoint allowlists only; arbitrary URLs, redirects to unapproved hosts and private-network fetch destinations shall be rejected.",
+      "category": "security",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 3,
+      "verification_phases": [
+        3
+      ],
+      "dependency_ids": [
+        "QNT-FR-0006"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0009"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0010",
+      "title": "Role authorization",
+      "normative_requirement": "Server-side authorization shall enforce the permission matrix in user-flows-and-permissions.md for every read, mutation, export, websocket subscription and background job; platform roles shall not inherit tenant trading authority.",
+      "category": "security",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 3,
+      "verification_phases": [
+        3
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0010"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0011",
+      "title": "Tenant and environment isolation",
+      "normative_requirement": "Tenant identity shall be derived from authenticated context; all account, order, credential, cache, object, event and workspace operations shall enforce tenant and environment ownership.",
+      "category": "security",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 3,
+      "verification_phases": [
+        3
+      ],
+      "dependency_ids": [
+        "QNT-FR-0010"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0011"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0012",
+      "title": "Retention export and deletion",
+      "normative_requirement": "Tenant export/deletion shall follow the retention matrix, data-use consent and holds; deletion shall distinguish removable profile data from restricted financial/audit evidence, and shall not silently erase unresolved exposure or shared model provenance.",
+      "category": "security",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 15,
+      "verification_phases": [
+        15
+      ],
+      "dependency_ids": [
+        "QNT-FR-0011"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0012"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0013",
+      "title": "Chart-centered workspace",
+      "normative_requirement": "The dashboard shall provide center candles/volume/timeframes/indicators, left search/watchlists/scanner, right bot/forecast/evidence/risk panels, bottom positions/orders/history/logs/performance and top instrument/freshness/session P&L/mode.",
+      "category": "dashboard",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 11,
+      "verification_phases": [
+        11
+      ],
+      "dependency_ids": [
+        "QNT-FR-0011"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0013"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0014",
+      "title": "Chart overlays and saved workspace",
+      "normative_requirement": "Entries, stops, targets and executed trades shall appear as distinct chart overlays; resizable panels and preferences shall persist per user with responsive fallbacks.",
+      "category": "dashboard",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 11,
+      "verification_phases": [
+        11
+      ],
+      "dependency_ids": [
+        "QNT-FR-0013"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0014"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0015",
+      "title": "Bounded chart tools",
+      "normative_requirement": "Proposed initial scope shall be candles, volume, SMA, EMA, RSI, MACD and ATR; horizontal line, trend line and rectangle drawings; no full TradingView parity claim or unlicensed proprietary library use.",
+      "category": "dashboard",
+      "priority": "MUST",
+      "origin": "PROPOSED",
+      "primary_implementation_phase": 11,
+      "verification_phases": [
+        11
+      ],
+      "dependency_ids": [
+        "QNT-FR-0013"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0015"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "PROPOSED"
+    },
+    {
+      "id": "QNT-FR-0016",
+      "title": "Honest UI status states",
+      "normative_requirement": "Every data panel shall distinguish loading, empty, disconnected, stale and error states and display event/receive age; stale values shall never be labelled current.",
+      "category": "dashboard",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 11,
+      "verification_phases": [
+        11
+      ],
+      "dependency_ids": [
+        "QNT-FR-0013",
+        "QNT-FR-0004"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0016"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0017",
+      "title": "Built-in virtual account",
+      "normative_requirement": "A user shall be able to create a live-market virtual balance account without live credentials and configure allocation, allowed symbols, target, deadline and risk limits within platform ceilings.",
+      "category": "demo",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 11,
+      "verification_phases": [
+        11
+      ],
+      "dependency_ids": [
+        "QNT-FR-0013"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0017"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0018",
+      "title": "Paper reset epochs",
+      "normative_requirement": "A paper reset shall create a new account/session epoch and preserve prior orders, outcomes, configuration and performance history; simulated performance shall be labelled.",
+      "category": "demo",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 11,
+      "verification_phases": [
+        11
+      ],
+      "dependency_ids": [
+        "QNT-FR-0017"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0018"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0019",
+      "title": "Execution simulator realism",
+      "normative_requirement": "Simulation shall model fees, funding, bid/ask spread, slippage, latency, liquidity and partial fills where supported; unsupported effects and assumptions shall be explicit and block unsupported fidelity claims.",
+      "category": "demo",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 8,
+      "verification_phases": [
+        8
+      ],
+      "dependency_ids": [
+        "QNT-FR-0004"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0019"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0020",
+      "title": "Shared decision logic with separate adapters",
+      "normative_requirement": "Paper and live shall use the same versioned forecasting and hard-risk decision logic, with separate execution adapters; replay, paper, testnet, shadow and live shall be distinct modes.",
+      "category": "demo",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 11,
+      "verification_phases": [
+        11
+      ],
+      "dependency_ids": [
+        "QNT-FR-0017",
+        "QNT-FR-0019"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0020"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0021",
+      "title": "Explicit live activation",
+      "normative_requirement": "Live activation shall require an authorized owner action, environment/account confirmation and satisfied live-capital gates; demo/testnet success alone shall never enable it.",
+      "category": "release",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 17,
+      "verification_phases": [
+        17
+      ],
+      "dependency_ids": [
+        "QNT-FR-0010",
+        "QNT-FR-0017"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0021"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0022",
+      "title": "Versioned multi-horizon probabilities",
+      "normative_requirement": "Forecasts shall emit UP/DOWN/RANGE probabilities summing to one within a declared numeric tolerance, expected movement, uncertainty and per-horizon timestamps, features, data/config/model versions and abstention reasons.",
+      "category": "forecast",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 7,
+      "verification_phases": [
+        7
+      ],
+      "dependency_ids": [
+        "QNT-FR-0004"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0022"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0023",
+      "title": "Reproducible matured labels",
+      "normative_requirement": "Predictions shall be persisted before outcomes; labels shall use the versioned timestamp/price/range-threshold rule in the data contract only after horizon maturity; unavailable outcome data shall remain unlabelled.",
+      "category": "forecast",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 7,
+      "verification_phases": [
+        7
+      ],
+      "dependency_ids": [
+        "QNT-FR-0022"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0023"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0024",
+      "title": "Scanner shortlist and context",
+      "normative_requirement": "The scanner shall rank the eligible universe with versioned market context, deterministic tie-breaking, per-horizon evidence and cost/risk rejection reasons; shortlist membership shall not itself authorize orders.",
+      "category": "forecast",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 6,
+      "verification_phases": [
+        6
+      ],
+      "dependency_ids": [
+        "QNT-FR-0002"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0024"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0025",
+      "title": "Net expected edge admission",
+      "normative_requirement": "Entry shall require an approved positive net-edge threshold after expected entry/exit fees, spread, slippage and funding with uncertainty; unknown material costs shall cause abstention.",
+      "category": "risk",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9
+      ],
+      "dependency_ids": [
+        "QNT-FR-0022",
+        "QNT-FR-0019",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0025"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0026",
+      "title": "Session lifecycle controls",
+      "normative_requirement": "Start, pause, resume, stop and emergency stop shall follow the state table: preflight and reconciliation before RUNNING; pause blocks entries and preserves protection; stop requests managed flattening; emergency stop latches entry inhibition. The emergency entry-inhibition latch shall survive process restart and ordinary recovery transitions until reconciled closure and authorized acknowledgement.",
+      "category": "session",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9
+      ],
+      "dependency_ids": [
+        "QNT-FR-0025",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0026"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0027",
+      "title": "Target and deadline handling",
+      "normative_requirement": "Target and deadline shall latch termination, cancel pending entries and manage residual fills to closure; a target is a stopping condition, never a return guarantee or permission to increase risk. Stop/deadline latches shall also persist during preflight, blocked operation and recovery, and shall be checked after restart before admission; stale equity shall not newly trigger a target, while a previously valid target latch shall survive.",
+      "category": "session",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9
+      ],
+      "dependency_ids": [
+        "QNT-FR-0026",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0027"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0028",
+      "title": "Action vocabulary and partial reversal",
+      "normative_requirement": "Decisions shall distinguish HOLD, REDUCE, TAKE_PROFIT, CLOSE, FLAT, NO_TRADE and REVERSE; reversal shall close first, reconcile zero exposure and independently re-evaluate entry; partial close shall protect residual quantity.",
+      "category": "session",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9
+      ],
+      "dependency_ids": [
+        "QNT-FR-0026",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0028"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0029",
+      "title": "Restart and unknown exposure recovery",
+      "normative_requirement": "Process restart shall acquire a fenced account owner, restore durable intents and reconcile exchange orders/fills/balances/exposure before any risk increase; unknown/manual changes shall not be overwritten.",
+      "category": "execution",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [
+        "QNT-FR-0026",
+        "QNT-INV-0001",
+        "QNT-INV-0009",
+        "QNT-INV-0013"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0029"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0030",
+      "title": "Manual and external account changes",
+      "normative_requirement": "Unattributed manual orders, positions, transfers or mode changes shall freeze bot entries, reconcile total account risk and alert the owner; external positions shall not be silently adopted or closed without explicit account-management authority.",
+      "category": "execution",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [
+        "QNT-FR-0026",
+        "QNT-INV-0001",
+        "QNT-INV-0009",
+        "QNT-INV-0013"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0030"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0031",
+      "title": "Single account authority and risk reservation",
+      "normative_requirement": "A fenced coordinator shall serialize reservations across sessions sharing an exchange account/environment, include pending orders and externally observed exposure, and reject concurrent requests exceeding combined limits.",
+      "category": "risk",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9
+      ],
+      "dependency_ids": [
+        "QNT-FR-0026",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0031"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0032",
+      "title": "Sizing margin and exchange filters",
+      "normative_requirement": "Sizing shall derive quantity from loss budget, stop distance, cost allowance, contract units and portfolio limits; round down to valid quantity increments and recheck margin/notional/filter rules; never round up beyond risk.",
+      "category": "risk",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9
+      ],
+      "dependency_ids": [
+        "QNT-FR-0002",
+        "QNT-FR-0025",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0032"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0033",
+      "title": "Portfolio ceilings and correlation",
+      "normative_requirement": "User settings shall remain below platform ceilings for per-position loss, aggregate loss, daily/session drawdown, leverage, margin use, correlated concentration and concurrent/pending orders; unavailable correlation shall use a conservative approved fallback.",
+      "category": "risk",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9
+      ],
+      "dependency_ids": [
+        "QNT-FR-0025",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0033"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0034",
+      "title": "Session equity and cash-flow accounting",
+      "normative_requirement": "Session target progress shall equal attributed marked equity minus initial allocation minus net external cash flows minus incremental estimated close costs; account transfers shall not count as profit and overlapping sessions shall not double-count capital.",
+      "category": "accounting",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [
+        "QNT-FR-0026",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0034"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0035",
+      "title": "Fill ledger and final results",
+      "normative_requirement": "The ledger shall record realized/unrealized P&L, signed funding, fees and reconciliation adjustments using actual fills; spread/slippage embedded in fills shall not be charged again; final session P&L shall require no exposure/pending liabilities and settled events.",
+      "category": "accounting",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [
+        "QNT-FR-0034",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0035"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0036",
+      "title": "Pending cancellation and protection",
+      "normative_requirement": "Canceling entries shall not cancel protection indiscriminately; protective orders shall be resized to confirmed residual exposure and removed only after flat/reconciliation or verified safe replacement.",
+      "category": "execution",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [
+        "QNT-FR-0026",
+        "QNT-INV-0001",
+        "QNT-INV-0009",
+        "QNT-INV-0013"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0036"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0037",
+      "title": "Decision priority and anti-churn",
+      "normative_requirement": "Emergency/hard risk and invalid-position exits shall precede target/deadline termination, then protection/reduction, then entry evaluation; entries shall use versioned hysteresis/cooldowns without obstructing exits.",
+      "category": "risk",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9
+      ],
+      "dependency_ids": [
+        "QNT-FR-0025",
+        "QNT-FR-0026",
+        "QNT-INV-0001"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0037"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0038",
+      "title": "Historical provenance and replay",
+      "normative_requirement": "Historical datasets shall retain source/time/coverage/revisions and point-in-time symbol universes including delisted contracts; replay shall expose gaps, survivorship limitations, cost assumptions and ambiguous bar execution without future information.",
+      "category": "data",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 5,
+      "verification_phases": [
+        5
+      ],
+      "dependency_ids": [
+        "QNT-FR-0004"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0038"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0039",
+      "title": "Data event integrity",
+      "normative_requirement": "Ingestion shall preserve source event time, receive time, sequence/identity, schema version, quality and provenance; detect gaps/out-of-order/duplicate events, resynchronize and prevent duplicate financial effects.",
+      "category": "data",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 4,
+      "verification_phases": [
+        4
+      ],
+      "dependency_ids": [
+        "QNT-FR-0004"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0039"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0040",
+      "title": "Learning evidence and attribution",
+      "normative_requirement": "Learning records shall include successful, unsuccessful and untraded forecasts and separate forecast quality, execution error, data faults and risk behavior; profit/loss alone shall not determine decision quality or exact causal explanations.",
+      "category": "learning",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 14,
+      "verification_phases": [
+        14
+      ],
+      "dependency_ids": [
+        "QNT-FR-0023",
+        "QNT-FR-0038"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0040"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0041",
+      "title": "Shared-event deduplication and feedback",
+      "normative_requirement": "Shared market forecasts/events shall count once as independent forecasting evidence across tenants; execution outcomes remain separate; user feedback shall be quarantined until validated and tenant training use shall follow consent/provenance.",
+      "category": "learning",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 14,
+      "verification_phases": [
+        14
+      ],
+      "dependency_ids": [
+        "QNT-FR-0040",
+        "QNT-FR-0011"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0041"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0042",
+      "title": "Controlled retraining triggers",
+      "normative_requirement": "Retraining shall require a registered sufficient-new-evidence and/or drift trigger and offline candidate job; one failed 70% forecast shall not cause immediate replacement or live weight/code mutation.",
+      "category": "learning",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 14,
+      "verification_phases": [
+        14
+      ],
+      "dependency_ids": [
+        "QNT-FR-0040"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0042"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0043",
+      "title": "Leakage and selection safeguards",
+      "normative_requirement": "Candidate evaluation shall use time-separated fitting/validation data, purge overlapping label horizons, point-in-time features and isolated final holdouts; repeated tuning shall not consume final holdouts as training evidence.",
+      "category": "learning",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 7,
+      "verification_phases": [
+        7
+      ],
+      "dependency_ids": [
+        "QNT-FR-0023",
+        "QNT-FR-0038"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0043"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0044",
+      "title": "Calibration and suitability evaluation",
+      "normative_requirement": "Evaluation shall compare candidates with production and simple baselines using calibration, discrimination, net returns, drawdown, turnover, uncertainty and regime/symbol coverage under prespecified thresholds; failed risk/calibration gates override headline gains.",
+      "category": "learning",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 10,
+      "verification_phases": [
+        10
+      ],
+      "dependency_ids": [
+        "QNT-FR-0043",
+        "QNT-FR-0019"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0044"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0045",
+      "title": "Auditable promotion and rollback",
+      "normative_requirement": "Model promotion shall require backtest, out-of-sample, paper/shadow and risk gates, independent reviewer approval and an immutable artifact/version record; rollback shall restore a known approved model with compatible features/config.",
+      "category": "learning",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 14,
+      "verification_phases": [
+        14
+      ],
+      "dependency_ids": [
+        "QNT-FR-0043",
+        "QNT-FR-0040"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0045"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0046",
+      "title": "Shared models and private account state",
+      "normative_requirement": "Default forecasting shall use shared validated models with separate tenant risk/account state; forecasts, features, data, configuration and decisions shall retain immutable version links.",
+      "category": "learning",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 14,
+      "verification_phases": [
+        14
+      ],
+      "dependency_ids": [
+        "QNT-FR-0022",
+        "QNT-FR-0011"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0046"
+      ],
+      "release_gate": [
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0047",
+      "title": "Readiness gates and honest claims",
+      "normative_requirement": "Engineering readiness, research/model suitability, user-demo readiness and live-capital eligibility shall be separately recorded; a research-only demo may pass engineering/demo checks but shall not claim validated performance or satisfy live gates.",
+      "category": "release",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 10,
+      "verification_phases": [
+        11,
+        13,
+        17
+      ],
+      "dependency_ids": [
+        "QNT-FR-0017",
+        "QNT-FR-0043"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0047"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0048",
+      "title": "Operational monitoring and incident recovery",
+      "normative_requirement": "Monitoring shall expose freshness, order uncertainty, protection gaps, risk utilization, credential health, equity discrepancies and model drift; incidents shall alert responsible owners and preserve recovery/audit timelines.",
+      "category": "operations",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 16,
+      "verification_phases": [
+        16
+      ],
+      "dependency_ids": [
+        "QNT-FR-0026"
+      ],
+      "acceptance_test_ids": [
+        "QNT-AT-0048"
+      ],
+      "release_gate": [
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0049",
+      "title": "Database and technology boundary",
+      "normative_requirement": "MongoDB shall be the primary application database; Redis shall not be the authoritative financial ledger. Rust/Python/React-TypeScript/Parquet/object-storage/Linux remain proposed; no compulsory PostgreSQL, Kafka, ClickHouse, second venue or deep learning without an approved need.",
+      "category": "architecture",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 2,
+      "verification_phases": [
+        2
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0049"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-FR-0050",
+      "title": "Current integration verification",
+      "normative_requirement": "Before reliance, exchange/provider API versions, capabilities, fees, limits and chart licensing shall have dated official-source evidence and compatibility tests; unavailable verification shall be marked unverified and block dependent capability.",
+      "category": "architecture",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 2,
+      "verification_phases": [
+        2
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0050"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "MODEL_SUITABILITY",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0001",
+      "title": "Risk overrides predictions",
+      "normative_requirement": "Hard deterministic risk constraints shall override predictions, target and deadline pressure.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0051"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0002",
+      "title": "Independent exit and opposite entry",
+      "normative_requirement": "Closing existing exposure and entering the opposite direction shall be independent decisions with separate cost/edge checks; reversal shall not be atomic.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0052"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0003",
+      "title": "FLAT and NO TRADE",
+      "normative_requirement": "FLAT and NO_TRADE shall be valid persisted decisions; absence of an opposite opportunity shall never require holding invalid exposure.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0053"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0004",
+      "title": "Invalid SHORT exit",
+      "normative_requirement": "An invalid SHORT shall not remain open solely because LONG entry costs exceed its expected edge.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0054"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0005",
+      "title": "No loss recovery escalation",
+      "normative_requirement": "No martingale, loss-recovery doubling or deadline-driven leverage/risk/frequency escalation shall be permitted.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0055"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0006",
+      "title": "Risk-derived quantity",
+      "normative_requirement": "Quantity shall be bounded by acceptable loss, stop distance, contract rules and portfolio constraints, including pending reservations.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0056"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0007",
+      "title": "Stop distinct from liquidation",
+      "normative_requirement": "Liquidation price shall not be used as the ordinary stop-loss; an approved buffer and independent protection shall be required before entry.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0057"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0008",
+      "title": "Costs without double counting",
+      "normative_requirement": "Entry shall include expected transaction costs; actual-fill accounting shall not separately deduct spread/slippage already embedded in fill prices.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0058"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0009",
+      "title": "Reconcile unknown status",
+      "normative_requirement": "Unclear submission status shall enter reconciliation before any retry that could duplicate exposure.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0059"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0010",
+      "title": "Critical-input freshness",
+      "normative_requirement": "Stale/invalid critical inputs shall block risk increases while existing exposure follows the protection and recovery policy.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0060"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0011",
+      "title": "Exit bypasses entry cooldown",
+      "normative_requirement": "Risk-reducing orders shall bypass entry cooldowns while remaining subject to safe quantity and order-state reconciliation.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0061"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0012",
+      "title": "Mode isolation",
+      "normative_requirement": "Paper, testnet and live credentials/state shall be isolated; replay/shadow shall have no live dispatch authority.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0062"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0013",
+      "title": "Durable intent before dispatch",
+      "normative_requirement": "Order intent, unique client identity and risk reservation shall be durable before dispatch; database transactions shall not be treated as atomic with the exchange.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0063"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0014",
+      "title": "Outage closure limitations",
+      "normative_requirement": "Closure requests shall expose pending/failure/unknown outcomes; exchange/network outages shall never be represented as guaranteed stop prices or instantaneous flattening.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 12,
+      "verification_phases": [
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0064"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-INV-0015",
+      "title": "LLM authority boundary",
+      "normative_requirement": "LLMs may explain or assist research but shall have no independent order authority and shall not be the per-trade low-latency engine.",
+      "category": "invariant",
+      "priority": "MUST",
+      "origin": "INHERITED_INVARIANT",
+      "primary_implementation_phase": 9,
+      "verification_phases": [
+        9,
+        12,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0065"
+      ],
+      "release_gate": [
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-NFR-0001",
+      "title": "Freshness budgets by input and horizon",
+      "normative_requirement": "Each required input and supported forecast horizon shall have a configured maximum event age, receive age and gap/clock-skew limit; boundary tests shall reject limit violations and missing budgets shall block dependent decisions (D-03).",
+      "category": "nonfunctional",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 4,
+      "verification_phases": [
+        4,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0066"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-NFR-0002",
+      "title": "Latency measurement",
+      "normative_requirement": "The system shall instrument source-to-ingest, ingest-to-feature, inference, risk, durable-intent-to-dispatch, exchange-ack and UI delays; p50/p95/p99, sample count, interval and timeout rate shall be reported per load/horizon (D-04).",
+      "category": "nonfunctional",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 2,
+      "verification_phases": [
+        10,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0067"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-NFR-0003",
+      "title": "Recovery objectives",
+      "normative_requirement": "Recovery drills shall measure outage-detection-to-protected/reconciled service time and data loss by record class against approved RTO/RPO; entries shall remain blocked during unresolved recovery (D-05).",
+      "category": "nonfunctional",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 16,
+      "verification_phases": [
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0068"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-NFR-0004",
+      "title": "Reliability and capacity",
+      "normative_requirement": "Load/soak tests shall measure available critical decision minutes, disconnects, error rate, queue lag and saturation for declared tenant/symbol/session/order concurrency; overload shall reject new risk while reserving recovery capacity (D-06).",
+      "category": "nonfunctional",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 16,
+      "verification_phases": [
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0069"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-NFR-0005",
+      "title": "Security and audit completeness",
+      "normative_requirement": "All credential, permission, order, risk, model and operator state changes shall produce access-controlled tamper-evident audit records with actor/tenant/environment/time/correlation/version and result; zero unauthorized mutations or secret disclosures are permitted in the security fixture suite.",
+      "category": "nonfunctional",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 16,
+      "verification_phases": [
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0070"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-NFR-0006",
+      "title": "Reproducibility",
+      "normative_requirement": "A fixed data/config/model/runtime/seed manifest shall reproduce deterministic decisions and accounting exactly; stochastic numerical tolerance shall be declared before evaluation and compared separately.",
+      "category": "nonfunctional",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 10,
+      "verification_phases": [
+        10,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0071"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-NFR-0007",
+      "title": "Observable and actionable incidents",
+      "normative_requirement": "Every critical incident shall have a correlation ID, affected tenant/environment, first-detection time, severity, owner and resolution evidence; alert delay shall be measured against D-07 without placing secrets in telemetry.",
+      "category": "nonfunctional",
+      "priority": "MUST",
+      "origin": "USER_CONFIRMED",
+      "primary_implementation_phase": 16,
+      "verification_phases": [
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0072"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "SPECIFIED"
+    },
+    {
+      "id": "QNT-NFR-0008",
+      "title": "Accessible responsive UI",
+      "normative_requirement": "Proposed UI acceptance shall require keyboard access and visible focus for controls, text contrast of at least 4.5:1, no color-only risk/mode cues, and usable layouts at 360, 768 and 1440 CSS-pixel widths.",
+      "category": "nonfunctional",
+      "priority": "MUST",
+      "origin": "PROPOSED",
+      "primary_implementation_phase": 11,
+      "verification_phases": [
+        11,
+        16
+      ],
+      "dependency_ids": [],
+      "acceptance_test_ids": [
+        "QNT-AT-0073"
+      ],
+      "release_gate": [
+        "ENGINEERING",
+        "USER_DEMO",
+        "LIVE_CAPITAL"
+      ],
+      "status": "PROPOSED"
+    }
+  ]
+}
